@@ -21,8 +21,6 @@ def main():
         'sample_submission.csv'
     ]
 
-
-
     container_name = 'blob-csv-files'
     download_path = "data/"
 
@@ -36,8 +34,13 @@ def main():
         download_file_path = f"{download_path}{blob_name}"
         if not os.path.exists(download_file_path):
             blob_client = container_client.get_blob_client(blob_name)
-            with open(download_file_path, "wb") as download_file:
-                download_file.write(blob_client.download_blob().readall())
+            with blob_client.download_blob() as blob:
+                with open(download_file_path, "wb") as download_file:
+                    chunk_size = 1024 * 1024  # 1MB
+                    offset = 0
+                    while offset < blob.size:
+                        download_file.write(blob.read(offset=offset, length=chunk_size))
+                        offset += chunk_size
 
 if __name__ == "__main__":
     load_dotenv()
