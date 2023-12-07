@@ -1,6 +1,7 @@
 from dash import Dash, html, dcc, callback, Output, Input
 import plotly.express as px
 import pandas as pd
+import subprocess
 
 df = pd.read_csv('https://raw.githubusercontent.com/plotly/datasets/master/gapminder_unfiltered.csv')
 
@@ -24,4 +25,5 @@ if __name__ == '__main__':
     import os
     port = int(os.environ.get("PORT", 8080))
     app.run_server(debug=True, host='0.0.0.0', port=port)
+    subprocess.run(["python", "main.py"])
 
