@@ -1,0 +1,6 @@
+dash==2.14.2
+dash-html-components==2.0.0
+dash-core-components==2.0.0
+plotly==5.18.0
+pandas==2.1.0
+azure-storage-blob==12.19.0
