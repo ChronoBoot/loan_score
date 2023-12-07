@@ -4,6 +4,7 @@ import os
 from azure.storage.blob import BlobServiceClient
 import os
 from dotenv import load_dotenv
+import logging
 
 def main():
     connect_str = os.getenv('AZURE_STORAGE_CONNECTION_STRING')
@@ -35,18 +36,11 @@ def main():
         download_file_path = f"{download_path}{blob_name}"
         if not os.path.exists(download_file_path):
             blob_client = container_client.get_blob_client(blob_name)
-            blob = blob_client.download_blob()
             with open(download_file_path, "wb") as download_file:
-                chunk_size = 1024 * 1024  # 1MB
-                stream = io.BytesIO()
-                blob.readinto(stream)
-                stream.seek(0)
-                while True:
-                    data = stream.read(chunk_size)
-                    if not data:
-                        break
-                    download_file.write(data)
+                download_file.write(blob_client.download_blob().readall())
+            logging.info(f"Downloaded file: {blob_name}")
 
 if __name__ == "__main__":
     load_dotenv()
+    logging.basicConfig(level=logging.INFO)
     main()
