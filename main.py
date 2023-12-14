@@ -3,6 +3,7 @@ import os
 from azure.storage.blob import BlobServiceClient
 import os
 from dotenv import load_dotenv
+from dash_user_interface import DashUserInterface
 from simple_load_data import SimpleLoadData
 from random_forest_loan_predictor import RandomForestLoanPredictor
 
@@ -42,6 +43,9 @@ def main():
 
     print(f"Accuracy: {accuracy}")
 
+    user_interface = DashUserInterface()
+    
+    user_interface.display()
 
 if __name__ == "__main__":
     load_dotenv()
