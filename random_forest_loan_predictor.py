@@ -1,4 +1,4 @@
-from sklearn.base import accuracy_score
+from sklearn.metrics import accuracy_score
 from sklearn.calibration import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
@@ -36,3 +36,6 @@ class RandomForestLoanPredictor(LoanPredictor):
         y_pred = self.model.predict(self.X_test)
         accuracy = accuracy_score(self.y_test, y_pred)
         return accuracy
+    
+    def predict(self, loan):
+        return self.model.predict(loan)

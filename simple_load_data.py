@@ -14,3 +14,6 @@ class SimpleLoadData(LoadData):
                 blob_client = container_client.get_blob_client(blob_name)
                 with open(download_file_path, "wb") as download_file:
                     download_file.write(blob_client.download_blob().readall())
+
+    def save(self, file_path, data):
+        raise NotImplementedError("The save method is not implemented")
