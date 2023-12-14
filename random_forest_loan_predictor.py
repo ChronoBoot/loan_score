@@ -11,6 +11,7 @@ class RandomForestLoanPredictor(LoanPredictor):
         self.X_test = None
         self.y_train = None
         self.y_test = None
+        self.le = LabelEncoder()
 
     def train(self, loans):
         target_variable = 'TARGET'
@@ -18,11 +19,8 @@ class RandomForestLoanPredictor(LoanPredictor):
         # Drop the target variable from the training data
         X = loans.drop(columns=[target_variable])
         
-        # Initialize a LabelEncoder
-        le = LabelEncoder()
-
         # Apply the LabelEncoder to each column
-        X = X.apply(lambda col: le.fit_transform(col) if col.dtype == 'object' else col)
+        X = X.apply(lambda col: self.le.fit_transform(col) if col.dtype == 'object' else col)
 
         # Fill NaN values
         X = X.fillna(0)
@@ -38,4 +36,11 @@ class RandomForestLoanPredictor(LoanPredictor):
         return accuracy
     
     def predict(self, loan):
-        return self.model.predict(loan)
+        if len(loan) < len(self.X_train.columns):
+            loan = loan + [0] * (len(self.X_train.columns) - len(loan))
+
+        # Apply the LabelEncoder to each column
+        loan = loan.apply(lambda col: self.le.fit_transform(col) if col.dtype == 'object' else col)
+
+        return self.model.predict([loan])
+    

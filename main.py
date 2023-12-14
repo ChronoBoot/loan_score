@@ -33,7 +33,7 @@ def main():
 
     data_loader.load(blob_service_client, container_name, file_names, download_path)
 
-    train_data = pd.read_csv(f"{download_path}application_train.csv")
+    train_data = pd.read_csv(f"{download_path}application_train.csv", nrows=10000)
 
     model = RandomForestLoanPredictor()
 
