@@ -9,3 +9,7 @@ class LoanPredictor(ABC):
     @abstractmethod
     def train(self, loans):
         pass
+
+    @abstractmethod
+    def evaluate(self):
+        pass
