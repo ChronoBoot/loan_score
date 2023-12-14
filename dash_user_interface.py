@@ -8,8 +8,9 @@ class DashUserInterface(UserInterface):
         self.app.layout = html.Div([html.H1(children='Loan prediction', style={'textAlign':'center'})])
 
     def display(self):
-        port = int(os.environ.get("PORT", 8080))
-        self.app.run_server(debug=True, host='0.0.0.0', port=port)
+        port = int(os.environ.get("PORT", 10000))
+        host = os.getenv("HOST", '0.0.0.0')
+        self.app.run_server(debug=True, host=host, port=port)
 
     def send_data(self):
         raise NotImplementedError("The send_data method is not implemented")
