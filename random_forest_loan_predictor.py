@@ -40,15 +40,12 @@ class RandomForestLoanPredictor(LoanPredictor):
         accuracy = accuracy_score(self.y_test, y_pred)
         return accuracy
     
-    def predict(self, loan):
-        if len(loan) < len(self.X_train.columns):
-            loan = loan + [0] * (len(self.X_train.columns) - len(loan))
+    def predict(self, loan: pd.DataFrame):
+        ordered_loan = loan[self.X_train.columns]
 
-        loan_df = pd.DataFrame([loan], columns=self.X_train.columns)
+        for column in ordered_loan.columns:
+            if ordered_loan[column].dtype == 'object':
+                ordered_loan[column] = self.label_encoders[column].transform(ordered_loan[column])
 
-        for column in loan_df.columns:
-            if loan_df[column].dtype == 'object':
-                loan_df[column] = self.label_encoders[column].transform(loan_df[column])
-
-        return self.model.predict([loan])
+        return self.model.predict(ordered_loan)
     
