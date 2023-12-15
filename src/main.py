@@ -16,9 +16,9 @@ from azure.storage.blob import BlobServiceClient
 from dotenv import load_dotenv
 
 # Local application/library specific imports
-from dash_user_interface import DashUserInterface
-from simple_load_data import SimpleLoadData
-from random_forest_loan_predictor import RandomForestLoanPredictor
+from src.ui.dash_user_interface import DashUserInterface
+from src.data_processing.simple_load_data import SimpleLoadData
+from src.models.random_forest_loan_predictor import RandomForestLoanPredictor
 
 # Columns to drop from the dataset
 COLUMNS_TO_DROP = ['SK_ID_CURR']  # ID column that's not needed for the analysis
@@ -103,6 +103,8 @@ def _main(FREQUENCY, DOWNLOAD_PATH):
 # Entry point of the script
 if __name__ == "__main__":
     try:
+        load_dotenv()
+
         # Configure logging
         logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 

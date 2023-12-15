@@ -1,5 +1,5 @@
 import os
-from load_data_abc import LoadData
+from .load_data_abc import LoadData
 
 class SimpleLoadData(LoadData):
     def load(self, blob_service_client, container_name, file_names, download_path):

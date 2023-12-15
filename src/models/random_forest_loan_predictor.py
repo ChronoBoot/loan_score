@@ -3,7 +3,7 @@ from sklearn.metrics import accuracy_score
 from sklearn.calibration import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
-from loan_predictor_abc import LoanPredictor
+from .loan_predictor_abc import LoanPredictor
 
 class RandomForestLoanPredictor(LoanPredictor):
     def __init__(self):
