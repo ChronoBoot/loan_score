@@ -33,7 +33,7 @@ def main():
 
     data_loader.load(blob_service_client, container_name, file_names, download_path)
 
-    train_data = pd.read_csv(f"{download_path}application_train.csv", nrows=10000)
+    train_data = pd.read_csv(f"{download_path}application_train.csv", nrows=100000)
 
     model = RandomForestLoanPredictor()
 
@@ -43,7 +43,7 @@ def main():
 
     print(f"Accuracy: {accuracy}")
 
-    user_interface = DashUserInterface()
+    user_interface = DashUserInterface(model)
     
     user_interface.display()
 

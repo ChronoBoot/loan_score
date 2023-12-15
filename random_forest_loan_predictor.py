@@ -1,3 +1,4 @@
+import pandas as pd
 from sklearn.metrics import accuracy_score
 from sklearn.calibration import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
@@ -11,16 +12,20 @@ class RandomForestLoanPredictor(LoanPredictor):
         self.X_test = None
         self.y_train = None
         self.y_test = None
-        self.le = LabelEncoder()
+        self.label_encoders = {}
 
     def train(self, loans):
         target_variable = 'TARGET'
 
         # Drop the target variable from the training data
         X = loans.drop(columns=[target_variable])
-        
-        # Apply the LabelEncoder to each column
-        X = X.apply(lambda col: self.le.fit_transform(col) if col.dtype == 'object' else col)
+
+        for column in X.columns:
+            if X[column].dtype == 'object':
+                self.le = LabelEncoder()
+                self.le.fit(X[column])
+                self.label_encoders[column] = self.le
+                X[column] = self.le.transform(X[column])
 
         # Fill NaN values
         X = X.fillna(0)
@@ -39,8 +44,11 @@ class RandomForestLoanPredictor(LoanPredictor):
         if len(loan) < len(self.X_train.columns):
             loan = loan + [0] * (len(self.X_train.columns) - len(loan))
 
-        # Apply the LabelEncoder to each column
-        loan = loan.apply(lambda col: self.le.fit_transform(col) if col.dtype == 'object' else col)
+        loan_df = pd.DataFrame([loan], columns=self.X_train.columns)
+
+        for column in loan_df.columns:
+            if loan_df[column].dtype == 'object':
+                loan_df[column] = self.label_encoders[column].transform(loan_df[column])
 
         return self.model.predict([loan])
     
