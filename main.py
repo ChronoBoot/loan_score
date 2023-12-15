@@ -39,11 +39,9 @@ def main():
 
     train_data = train_data.drop(columns=COLUMNS_TO_DROP)
 
-    categorical_columns = {col: train_data[col].dropna().unique().tolist() for col in train_data.columns if train_data[col].dtype != 'float64'}
-    float_columns = [col for col in train_data.columns if train_data[col].dtype == 'float64']
-    
+    categorical_columns = {col: train_data[col].dropna().unique().tolist() for col in train_data.columns if train_data[col].dtype != 'float64' and not (train_data[col].dtype == 'int64' and len(train_data[col].unique()) > 2)}
+    float_columns = [col for col in train_data.columns if col not in categorical_columns]
     categorical_columns.pop('TARGET', None)
-
     
     model = RandomForestLoanPredictor()
 
