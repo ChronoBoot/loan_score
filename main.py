@@ -7,6 +7,8 @@ from dash_user_interface import DashUserInterface
 from simple_load_data import SimpleLoadData
 from random_forest_loan_predictor import RandomForestLoanPredictor
 
+FREQUENCY = 10
+COLUMNS_TO_DROP = ['SK_ID_CURR']
 
 # Main function
 def main():
@@ -33,17 +35,25 @@ def main():
 
     data_loader.load(blob_service_client, container_name, file_names, download_path)
 
-    train_data = pd.read_csv(f"{download_path}application_train.csv", nrows=100000)
+    train_data = pd.read_csv(f"{download_path}application_train.csv")
 
+    train_data = train_data.drop(columns=COLUMNS_TO_DROP)
+
+    categorical_columns = {col: train_data[col].dropna().unique().tolist() for col in train_data.columns if train_data[col].dtype != 'float64'}
+    float_columns = [col for col in train_data.columns if train_data[col].dtype == 'float64']
+    
+    categorical_columns.pop('TARGET', None)
+
+    
     model = RandomForestLoanPredictor()
 
-    model.train(train_data)
+    model.train(train_data[::FREQUENCY])
 
     accuracy = model.evaluate()
 
     print(f"Accuracy: {accuracy}")
 
-    user_interface = DashUserInterface(model)
+    user_interface = DashUserInterface(model, categorical_columns, float_columns)
     
     user_interface.display()
 
