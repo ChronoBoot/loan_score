@@ -85,7 +85,7 @@ def _main(FREQUENCY, DOWNLOAD_PATH):
 
         # Train the random forest model
         model = RandomForestLoanPredictor()
-        model.train(train_data[::FREQUENCY])
+        model.train(train_data[::FREQUENCY], target_variable='TARGET')
         logging.info("Model trained")
 
         accuracy = model.evaluate()
