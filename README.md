@@ -21,7 +21,7 @@ Follow these steps to get your development environment up and running:
     ```
 2. Navigate to the project directory:
     ```bash
-    cd loan-prediction-project
+    cd loan_score
     ```
 3. Install the required packages:
     ```bash
