@@ -1,6 +1,8 @@
 import os
 import logging
+from typing import Any
 from .load_data_abc import LoadData
+from azure.storage.blob import BlobServiceClient
 
 class SimpleLoadData(LoadData):
     """
@@ -10,7 +12,7 @@ class SimpleLoadData(LoadData):
     The save method is not implemented and should be implemented in a subclass if needed.
     """
     
-    def load(self, blob_service_client, container_name, file_names, download_path):
+    def load(self, blob_service_client: BlobServiceClient, container_name: str, file_names : list, download_path: str):
         """
         Load data from Azure Blob Storage and save it to a local directory.
 
