@@ -71,3 +71,5 @@ This project is licensed under the MIT license - see the LICENSE file for detail
 - A special thanks to Morgan Gautherot (https://www.linkedin.com/in/morgan-gautherot-phd-05a227108/) for his great help on this project.
 
 ## Model Development Process
+
+In this phase of the project, we implemented a simple Random Forest model. The primary dataset used was the `application_train` table, focusing on encoding non-numerical values to fit the model requirements. This approach yielded a promising precision rate of around 92%, marking a solid start for our predictive modeling. The aim was to establish a baseline performance, using a well-known and reliable machine learning algorithm. This initial step serves as a foundation for more complex model development and optimization in the future.
