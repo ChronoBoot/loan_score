@@ -19,28 +19,37 @@ class RandomForestLoanPredictor(LoanPredictor):
     def __init__(self):
         self.model = RandomForestClassifier()
         self.label_encoders = {}
+        self.X_train = None
+        self.X_test = None
+        self.y_train = None
+        self.y_test = None
+        self.random_state = 42
+        self.test_size = 0.2
 
     def preprocess_data(self, X: pd.DataFrame) -> pd.DataFrame:
         """
         Preprocess the data by encoding categorical variables and filling NaN values.
 
         Args:
-            X (pd.DataFrame): The DataFrame to preprocess.
+            X (pd.DataFrame): The DataFrame to preprocess. It is not modified.
 
         Returns:
             pd.DataFrame: The preprocessed DataFrame.
         """
-        for column in X.columns:
-            if X[column].dtype == 'object':
-                self.le = LabelEncoder()
-                self.le.fit(X[column])
-                self.label_encoders[column] = self.le
-                X[column] = self.le.transform(X[column])
+
+        new_data = X.copy()
+
+        for column in new_data.columns:
+            if new_data[column].dtype == 'object':
+                le = LabelEncoder()
+                le.fit(new_data[column])
+                self.label_encoders[column] = le
+                new_data[column] = le.transform(new_data[column])
 
         # Fill NaN values
-        X = X.fillna(0)
+        new_data = new_data.fillna(0)
 
-        return X
+        return new_data
 
     def train(self, loans: pd.DataFrame, target_variable: str) -> None:
         """
@@ -59,7 +68,7 @@ class RandomForestLoanPredictor(LoanPredictor):
             X = self.preprocess_data(X)
 
             y = loans[target_variable]
-            self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+            self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=self.test_size, random_state=self.random_state)
 
             self.model.fit(self.X_train, self.y_train)
         except Exception as e:
