@@ -11,27 +11,46 @@ These instructions will guide you through setting up the project on your local m
 Before you begin, ensure you have the following installed:
 - Python 3.8 or higher
 
+#### Installing Python
+If you don't have Python installed, download and install it from the [Python official website](https://www.python.org/downloads/). Ensure you select the version that corresponds to your operating system. During installation, remember to check the option that says 'Add Python to PATH' to make Python accessible from the command line.
+
 ### Installing
 
 Follow these steps to get your development environment up and running:
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/loan-prediction-project.git
+    git clone https://github.com/ChronoBoot/loan_score.git
     ```
 2. Navigate to the project directory:
     ```bash
     cd loan_score
     ```
-3. Install the required packages:
+3. Create a virtual environment:
+    ```bash
+    python -m venv venv
+    ```
+4. Activate the virtual environment:
+   - On Windows:
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - On MacOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+5. Install the required packages:
     ```bash
     pip install -r requirements.txt
     ```
 
+Note: To exit the virtual environment, simply type `deactivate` in the command line.
+
 ## Usage
 
 To run the project:
-1. Execute the main script in the root folder:
+1. Ensure the virtual environment is activated.
+2. Execute the main script in the root folder:
     ```bash
     python -m src.main
     ```
@@ -50,3 +69,5 @@ This project is licensed under the MIT license - see the LICENSE file for detail
 
 - Thanks to Kaggle(https://www.kaggle.com/competitions/home-credit-default-risk/overview) for providing the dataset.
 - A special thanks to Morgan Gautherot (https://www.linkedin.com/in/morgan-gautherot-phd-05a227108/) for his great help on this project.
+
+## Model Development Process
