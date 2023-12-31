@@ -69,3 +69,5 @@ This project is licensed under the MIT license - see the LICENSE file for detail
 
 - Thanks to Kaggle(https://www.kaggle.com/competitions/home-credit-default-risk/overview) for providing the dataset.
 - A special thanks to Morgan Gautherot (https://www.linkedin.com/in/morgan-gautherot-phd-05a227108/) for his great help on this project.
+
+## Model Development Process
