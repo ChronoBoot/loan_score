@@ -93,8 +93,12 @@ def _main(FREQUENCY, DOWNLOAD_PATH):
 
         # Display the user interface
         user_interface = DashUserInterface(model, categorical_columns, numerical_columns)
-        user_interface.display()
         logging.info("User interface displayed")
+        user_interface.display()
+
+        # Display the most important features
+        most_important_features = model.get_most_important_features(10)
+        logging.info(f"Most important features:\n{most_important_features}")
 
   
     except Exception as e:

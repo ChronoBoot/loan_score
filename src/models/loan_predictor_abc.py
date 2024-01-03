@@ -17,7 +17,7 @@ class LoanPredictor(ABC):
             loan (pd.DataFrame): The loan to predict the outcome for.
 
         Returns:
-            int: The predicted outcome for the loan. 0 for a rejected loan, 1 for an accepted loan.
+            int: The predicted outcome for the loan. 1 for a rejected loan, 0 for an accepted loan.
         """
         pass
 
@@ -41,5 +41,15 @@ class LoanPredictor(ABC):
 
         Returns:
             float: The result of the evaluation.
+        """
+        pass
+
+    @abstractmethod
+    def get_most_important_features(self, nb_features : int) -> pd.DataFrame:
+        """
+        Get the most important features from the model.
+
+        Returns:
+            pd.DataFrame: A DataFrame of the most important features.
         """
         pass

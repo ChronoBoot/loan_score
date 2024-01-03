@@ -1,4 +1,5 @@
 import unittest
+import numpy as np
 import pandas as pd
 from pandas.testing import assert_frame_equal, assert_series_equal
 from unittest.mock import Mock, patch, MagicMock
@@ -235,6 +236,33 @@ class TestRandomForestLoanPredictor(unittest.TestCase):
 
         # Assert that the result is as expected
         self.assertEqual(result, prediction_value)
+
+    @patch('src.models.random_forest_loan_predictor.RandomForestClassifier')
+    def test_get_most_important_features(self, mock_model):
+        # Define some constants for the test
+        nb_features = 2
+        columns = ['col1', 'col2', 'col3']
+        importances = [0.2, 0.3, 0.5]
+
+        # Define the input DataFrame
+        X_train = pd.DataFrame(np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), columns=columns)
+
+        # Define the expected output DataFrame
+        expected_output = pd.DataFrame(importances, index=columns, columns=['importance']).sort_values('importance', ascending=False).head(nb_features)
+
+        # Set up the mock for the model's feature_importances_ attribute
+        mock_model.feature_importances_ = importances
+
+        # Create an instance of RandomForestLoanPredictor
+        predictor = RandomForestLoanPredictor()
+        predictor.model = mock_model
+        predictor.X_train = X_train
+
+        # Call the method under test
+        result = predictor.get_most_important_features(nb_features)
+
+        # Assert that the result is as expected
+        pd.testing.assert_frame_equal(result, expected_output)
 
 if __name__ == '__main__':
     unittest.main()

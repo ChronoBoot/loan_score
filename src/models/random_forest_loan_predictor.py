@@ -96,7 +96,7 @@ class RandomForestLoanPredictor(LoanPredictor):
             loan (pd.DataFrame): The loan to predict the outcome for.
 
         Returns:
-            int: The predicted outcome for the loan. 0 for a rejected loan, 1 for an accepted loan.
+            int: The predicted outcome for the loan. 1 for a rejected loan, 0 for an accepted loan.
         """
         try:
             ordered_loan = loan[self.X_train.columns]
@@ -108,3 +108,16 @@ class RandomForestLoanPredictor(LoanPredictor):
             return self.model.predict(ordered_loan)
         except Exception as e:
             logging.error(f"Failed to predict the outcome for the loan: {e}")
+
+    def get_most_important_features(self, nb_features : int) -> pd.DataFrame:
+        """
+        Get the most important features from the model.
+
+        Returns:
+            pd.DataFrame: A DataFrame of the most important features.
+        """
+        try:
+            feature_importances = pd.DataFrame(self.model.feature_importances_, index = self.X_train.columns, columns=['importance']).sort_values('importance', ascending=False)
+            return feature_importances.head(nb_features)
+        except Exception as e:
+            logging.error(f"Failed to get the most important features: {e}")
