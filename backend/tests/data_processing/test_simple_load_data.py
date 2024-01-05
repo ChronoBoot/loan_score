@@ -1,13 +1,18 @@
 import unittest
 from unittest.mock import Mock, patch
 from azure.storage.blob import BlobServiceClient, ContainerClient, BlobClient
-from src.data_processing.simple_load_data import SimpleLoadData
+from backend.src.data_processing.simple_load_data import SimpleLoadData
 
 class TestSimpleLoadData(unittest.TestCase):
+    @patch.dict('os.environ', {
+        'AZURE_STORAGE_CONNECTION_STRING': 'DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=testkey;BlobEndpoint=testendpoint',
+        'AZURE_STORAGE_CONTAINER_NAME': 'test_container_name'
+    })
+    @patch('backend.src.data_processing.simple_load_data.load_dotenv')
     @patch('os.path.exists')
     @patch('os.makedirs')
     @patch('builtins.open', new_callable=unittest.mock.mock_open)
-    def test_load(self, mock_open, mock_makedirs, mock_exists):
+    def test_load(self, mock_open, mock_makedirs, mock_exists, mock_load_dotenv):
         # Arrange
         mock_blob_service_client = Mock(spec=BlobServiceClient)
         mock_container_client = Mock(spec=ContainerClient)
@@ -18,12 +23,14 @@ class TestSimpleLoadData(unittest.TestCase):
         mock_exists.return_value = False
 
         simple_load_data = SimpleLoadData()
-        container_name = 'test-container'
+        container_name = 'test_container_name'
         file_names = ['test1.txt', 'test2.txt']
         download_path = '/path/to/download/'
+        simple_load_data.blob_service_client = mock_blob_service_client
+        simple_load_data.container_name = container_name
 
         # Act
-        simple_load_data.load(mock_blob_service_client, container_name, file_names, download_path)
+        simple_load_data.load(file_names, download_path)
 
         # Assert
         mock_blob_service_client.get_container_client.assert_called_once_with(container=container_name)

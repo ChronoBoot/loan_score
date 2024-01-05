@@ -1,8 +1,10 @@
-from .user_interface_abc import UserInterface
+from frontend.src.ui.user_interface_abc import UserInterface
 from dash import Dash, html, Input, Output, State, dcc, callback, no_update
-from ..models.random_forest_loan_predictor import RandomForestLoanPredictor
+from backend.src.models.random_forest_loan_predictor import RandomForestLoanPredictor
 import os
 import pandas as pd
+import requests
+import json
 
 class DashUserInterface(UserInterface):
     """
@@ -25,26 +27,29 @@ class DashUserInterface(UserInterface):
 
     """
 
-    def __init__(self, model: RandomForestLoanPredictor, categorical_values, float_values):
-        self.app = Dash(__name__)
-        self.model = model
-        self.categorical_values = categorical_values
-        self.float_values = float_values 
+    API_URL = "http://127.0.0.1:5000"
+    PREDICT_URL = f"{API_URL}/predict"
 
-        self.app.layout = self._create_layout()
+    def __init__(self, categorical_values : dict, float_values: dict) -> None: 
+        self.app = Dash(__name__)
+        self.categorical_values = categorical_values
+        self.float_values = float_values
 
         self.app.callback(
             Output('prediction-popup', 'displayed'),
             Output('prediction-popup', 'message'),
             Input('predict-button', 'n_clicks'),
             [State(dropdown, 'value') for dropdown in self.categorical_values.keys()],
-            [State(input, 'value') for input in self.float_values]
+            [State(input, 'value') for input in self.float_values.keys()]
         )(self._update_callback)
 
         self.app.callback(
             Output('prediction', 'children'),
             Input('predict-button', 'n_clicks')
         )(self._clear_prediction_callback)
+
+        self.app.layout = self._create_layout()
+
 
     def _create_layout(self):
         """
@@ -63,9 +68,9 @@ class DashUserInterface(UserInterface):
                 html.Label(col),
                 dcc.Dropdown(
                     id=col, 
-                    options=[{'label': val, 'value': val} for val in values],
+                    options=[{'label': val, 'value': val} for val in values['values']],
                     placeholder=f"Select {col}",
-                    value=values[0]
+                    value=values['values'][0]
                 )
             ]) for col, values in self.categorical_values.items()],
             *[html.Div([
@@ -76,7 +81,7 @@ class DashUserInterface(UserInterface):
                     placeholder=f"Enter {col}",
                     value=0
                 )
-            ]) for col in self.float_values],
+            ]) for col in self.float_values.keys()],
             html.Button('Predict', id='predict-button', n_clicks=0),
             dcc.ConfirmDialog(
                 id='prediction-popup',
@@ -99,13 +104,9 @@ class DashUserInterface(UserInterface):
             The updated state of the prediction popup.
         """
         if n_clicks > 0:
-            nb_categorical_values = len(self.categorical_values.keys())
+            combined_keys = list(self.categorical_values.keys()) + list(self.float_values.keys())
+            data = dict(zip(combined_keys, args))            
 
-            categorical_values = [val for val in args[:nb_categorical_values]]
-            float_values = [val for val in args[nb_categorical_values:]]
-
-            data = pd.DataFrame([categorical_values + float_values], columns=list(self.categorical_values.keys()) + self.float_values)
-            
             prediction = self.predict(data)
             return True, f'The prediction is: {prediction}'
 
@@ -133,7 +134,7 @@ class DashUserInterface(UserInterface):
         host = os.getenv("HOST", '0.0.0.0')
         self.app.run_server(debug=True, host=host, port=port)
 
-    def predict(self, data=[]):
+    def predict(self, data : dict =[]):
         """
         Predicts the loan using the given data.
 
@@ -143,4 +144,16 @@ class DashUserInterface(UserInterface):
         Returns:
             The loan prediction.
         """
-        return self.model.predict(data)
+        json_dict = {
+            'loan' : data
+        }
+
+        json_data = json.dumps(json_dict)
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(self.PREDICT_URL, data=json_data, headers=headers)
+        
+        if response.status_code == 200:
+            prediction = response.json()
+            return prediction
+        else:
+            return None

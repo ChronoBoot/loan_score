@@ -16,7 +16,7 @@ class RandomForestLoanPredictor(LoanPredictor):
     and evaluate the performance of the model.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.model = RandomForestClassifier()
         self.label_encoders = {}
         self.X_train = None
@@ -46,6 +46,7 @@ class RandomForestLoanPredictor(LoanPredictor):
                 self.label_encoders[column] = le
                 new_data[column] = le.transform(new_data[column])
 
+        
         # Fill NaN values
         new_data = new_data.fillna(0)
 
@@ -105,7 +106,7 @@ class RandomForestLoanPredictor(LoanPredictor):
                 if ordered_loan[column].dtype == 'object':
                     ordered_loan[column] = self.label_encoders[column].transform(ordered_loan[column])
 
-            return self.model.predict(ordered_loan)
+            return int(self.model.predict(ordered_loan))
         except Exception as e:
             logging.error(f"Failed to predict the outcome for the loan: {e}")
 

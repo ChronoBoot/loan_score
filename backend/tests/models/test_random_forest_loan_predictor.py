@@ -5,7 +5,7 @@ from pandas.testing import assert_frame_equal, assert_series_equal
 from unittest.mock import Mock, patch, MagicMock
 from sklearn.calibration import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
-from src.models.random_forest_loan_predictor import RandomForestLoanPredictor
+from backend.src.models.random_forest_loan_predictor import RandomForestLoanPredictor
 
 class TestRandomForestLoanPredictor(unittest.TestCase):
     def setUp(self):
@@ -17,7 +17,7 @@ class TestRandomForestLoanPredictor(unittest.TestCase):
 
     @patch('pandas.DataFrame.fillna')
     @patch('pandas.DataFrame.copy')
-    @patch('src.models.random_forest_loan_predictor.LabelEncoder')
+    @patch('backend.src.models.random_forest_loan_predictor.LabelEncoder')
     def test_preprocess_data(self, mock_label_encoder, mock_copy, mock_fillna):
         # Define some constants for the test
         default_value = 0
@@ -85,9 +85,9 @@ class TestRandomForestLoanPredictor(unittest.TestCase):
         assert_frame_equal(result, expected_result)
 
     @patch('pandas.DataFrame.drop')
-    @patch('src.models.random_forest_loan_predictor.RandomForestLoanPredictor.preprocess_data')
-    @patch('src.models.random_forest_loan_predictor.train_test_split')
-    @patch('src.models.random_forest_loan_predictor.RandomForestClassifier.fit')
+    @patch('backend.src.models.random_forest_loan_predictor.RandomForestLoanPredictor.preprocess_data')
+    @patch('backend.src.models.random_forest_loan_predictor.train_test_split')
+    @patch('backend.src.models.random_forest_loan_predictor.RandomForestClassifier.fit')
     def test_train(self, mock_fit, mock_split, mock_preprocess, mock_drop):
         # Define some constants for the test
         col1_name = 'col1'
@@ -151,8 +151,8 @@ class TestRandomForestLoanPredictor(unittest.TestCase):
         mock_fit.assert_called_with(test_df, self.predictor.y_train)
 
 
-    @patch('src.models.random_forest_loan_predictor.RandomForestClassifier.predict')
-    @patch('src.models.random_forest_loan_predictor.accuracy_score')
+    @patch('backend.src.models.random_forest_loan_predictor.RandomForestClassifier.predict')
+    @patch('backend.src.models.random_forest_loan_predictor.accuracy_score')
     def test_evaluate(self, mock_accuracy_score, mock_predict):
         # Define a constant for the accuracy
         accuracy = 0.9
@@ -181,8 +181,8 @@ class TestRandomForestLoanPredictor(unittest.TestCase):
         # Assert that the result is as expected
         self.assertEqual(result, accuracy)
 
-    @patch('src.models.random_forest_loan_predictor.LabelEncoder.transform')
-    @patch('src.models.random_forest_loan_predictor.RandomForestClassifier.predict')
+    @patch('backend.src.models.random_forest_loan_predictor.LabelEncoder.transform')
+    @patch('backend.src.models.random_forest_loan_predictor.RandomForestClassifier.predict')
     def test_predict(self, mock_predict, mock_transform):
         # Define some constants for the test
         prediction_value = 1
@@ -235,9 +235,9 @@ class TestRandomForestLoanPredictor(unittest.TestCase):
         assert_frame_equal(args[0], order_loan)
 
         # Assert that the result is as expected
-        self.assertEqual(result, prediction_value)
+        assert result == prediction_value
 
-    @patch('src.models.random_forest_loan_predictor.RandomForestClassifier')
+    @patch('backend.src.models.random_forest_loan_predictor.RandomForestClassifier')
     def test_get_most_important_features(self, mock_model):
         # Define some constants for the test
         nb_features = 2
