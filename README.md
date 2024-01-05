@@ -50,9 +50,13 @@ Note: To exit the virtual environment, simply type `deactivate` in the command l
 
 To run the project:
 1. Ensure the virtual environment is activated.
-2. Execute the main script in the root folder:
+2. Execute the backend main script in the root folder:
     ```bash
-    python -m src.main
+    python -m backend.src.main
+    ```
+3. Execute the frontend main script in the root folder:
+    ```bash
+    python -m frontend.src.main
     ```
 
 This will start the process of data retrieval, cleaning, and prediction. The output will be your predicted loan approvals.
