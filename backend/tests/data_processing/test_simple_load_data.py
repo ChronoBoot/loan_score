@@ -39,7 +39,12 @@ class TestSimpleLoadData(unittest.TestCase):
         mock_open.assert_called()
         mock_blob_client.download_blob().readall.assert_called()
 
-    def test_save(self):
+    @patch.dict('os.environ', {
+        'AZURE_STORAGE_CONNECTION_STRING': 'DefaultEndpointsProtocol=https;AccountName=testaccount;AccountKey=testkey;BlobEndpoint=testendpoint',
+        'AZURE_STORAGE_CONTAINER_NAME': 'test_container_name'
+    })
+    @patch('backend.src.data_processing.simple_load_data.load_dotenv')
+    def test_save(self, mock_load_dotenv):
         # Arrange
         simple_load_data = SimpleLoadData()
 
