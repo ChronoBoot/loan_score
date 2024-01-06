@@ -25,6 +25,7 @@ class SimpleLoadData(LoadData):
         Returns:
             None
         """
+
         load_dotenv()
         self.blob_service_client = BlobServiceClient.from_connection_string(os.getenv('AZURE_STORAGE_CONNECTION_STRING'))
         self.container_name = os.getenv('AZURE_STORAGE_CONTAINER_NAME')

@@ -54,7 +54,16 @@ To run the project:
     ```bash
     python -m backend.src.main
     ```
-3. Execute the frontend main script in the root folder:
+3. Open a new terminal and activate the virtual environment:
+    - On Windows:
+     ```bash
+     .\venv\Scripts\activate
+     ```
+   - On MacOS/Linux:
+     ```bash
+     source venv/bin/activate
+     ```
+4. Execute the frontend main script in the root folder:
     ```bash
     python -m frontend.src.main
     ```
