@@ -16,6 +16,7 @@ class TestSimpleReadData(unittest.TestCase):
         #data_concat = self.reader.read_data('data', True, 10000)
 
         # Assert
+        pass
 
 
         
