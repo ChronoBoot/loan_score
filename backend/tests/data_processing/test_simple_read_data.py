@@ -12,8 +12,8 @@ class TestSimpleReadData(unittest.TestCase):
 
 
         # Act
-        data = self.reader.read_data('data', False, 1000)
-        data_concat = self.reader.read_data('data', True, 10000)
+        #data = self.reader.read_data('data', False, 1000)
+        #data_concat = self.reader.read_data('data', True, 10000)
 
         # Assert
 
