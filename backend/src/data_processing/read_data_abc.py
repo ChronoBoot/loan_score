@@ -19,7 +19,7 @@ class ReadDataABC(ABC):
     FILES_NAMES = [POS_CASH_BALANCE_NAME, APPLICATION_TEST_NAME, APPLICATION_TRAIN_NAME, BUREAU_NAME, BUREAU_BALANCE_NAME, CREDIT_CARD_BALANCE_NAME, INSTALLMENTS_PAYMENTS_NAME, PREVIOUS_APPLICATION_NAME]
 
     @abstractmethod
-    def read_data(self, files_path: str, concat: bool, sampling_frequency: int) -> pd.DataFrame:
+    def retrieve_data(self, files_path: str, concat: bool, sampling_frequency: int) -> pd.DataFrame:
         """
         Abstract method for reading data.
 

@@ -476,28 +476,12 @@ class TestSimpleReadData(unittest.TestCase):
         pd.testing.assert_frame_equal(result, expected_result)
 
     @patch('pandas.read_csv')
-    def test_read_data_no_concat(self, mock_read_csv):
-        # Create a mock DataFrame to return from pd.read_csv
-        mock_df = pd.DataFrame({
-            'SK_ID_CURR': [1, 2, 3],
-            'DATA': ['A', 'B', 'C']
-        })
-        mock_read_csv.return_value = mock_df
-
-        # Create an instance of the class and call the method
-        result = self.reader.read_data('mock_path', False, 2)
-
-        # Check that the result is as expected
-        self.assertTrue(isinstance(result, pd.DataFrame))
-        pd.testing.assert_frame_equal(result, mock_df)
-
-    @patch('pandas.read_csv')
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_bureau_data')
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_credit_card_balance_data')
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_installments_payments_data')
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_previous_application_data')
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_pos_cash_balance_data')
-    def test_read_data_concat(self, mock_pos, mock_previous, mock_installments, mock_credit, mock_bureau, mock_read_csv):
+    def test_retrieve_data_concat(self, mock_pos, mock_previous, mock_installments, mock_credit, mock_bureau, mock_read_csv):
         # Create a mock DataFrame to return from pd.read_csv
         mock_df = pd.DataFrame({
             'SK_ID_CURR': [1, 2, 3],
@@ -534,7 +518,7 @@ class TestSimpleReadData(unittest.TestCase):
         mock_pos.return_value = mock_aggregated_pos
 
         # Create an instance of the class and call the method
-        result = self.reader.read_data('mock_path', True, 2)
+        result = self.reader.retrieve_data('mock_path', 2)
 
         # Check that the result is as expected
         expected_result = pd.DataFrame({
@@ -551,7 +535,7 @@ class TestSimpleReadData(unittest.TestCase):
         pd.testing.assert_frame_equal(result, expected_result)
 
     @patch('pandas.DataFrame.to_csv')
-    @patch('backend.src.data_processing.simple_read_data.SimpleReadData.read_data')
+    @patch('backend.src.data_processing.simple_read_data.SimpleReadData.retrieve_data')
     def test_write_data_for_model(self, mock_read_data, mock_to_csv):
         # Create a mock DataFrame to return from read_data
         mock_df = pd.DataFrame({
@@ -567,10 +551,28 @@ class TestSimpleReadData(unittest.TestCase):
         self.reader.write_data_for_model(mock_path, mock_file)
 
         # Check that the result is as expected
-        mock_read_data.assert_called_once_with(mock_path, concat = True, sampling_frequency = 1)
+        mock_read_data.assert_called_once_with(mock_path, sampling_frequency = 1)
         mock_df.to_csv.assert_called_once_with(f"{mock_path}/{mock_file}", index=False)
 
-        
+    @patch('pandas.read_csv')
+    def test_read_data(self, mock_read_csv):
+        # Arrange
+        mock_df = pd.DataFrame({
+            'SK_ID_CURR': [1, 2, 3],
+            'DATA': ['A', 'B', 'C']
+        })
+        mock_read_csv.return_value = mock_df
+
+        mock_path = 'mock_path'
+        mock_file = 'mock_file'
+
+        # Act
+        result = self.reader.read_data(mock_path, mock_file)
+
+        # Assert
+        mock_read_csv.assert_called_once_with(f"{mock_path}/{mock_file}")
+        self.assertTrue(isinstance(result, pd.DataFrame))
+        pd.testing.assert_frame_equal(result, mock_df)
 
 if __name__ == '__main__':
     unittest.main()

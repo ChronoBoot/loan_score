@@ -68,9 +68,9 @@ class DashUserInterface(UserInterface):
                 html.Label(col),
                 dcc.Dropdown(
                     id=col, 
-                    options=[{'label': val, 'value': val} for val in values['values']],
+                    options=[{'label': val, 'value': val} for val in values],
                     placeholder=f"Select {col}",
-                    value=values['values'][0]
+                    value=values[0]
                 )
             ]) for col, values in self.categorical_values.items()],
             *[html.Div([

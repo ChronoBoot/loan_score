@@ -42,34 +42,32 @@ TRAIN_URL = f"{API_URL}/train"
 PREDICT_URL = f"{API_URL}/predict"
 EVALUATE_URL = f"{API_URL}/evaluate"
 MOST_IMPORTANT_FEATURES_URL = f"{API_URL}/most_important_features"
+GENERATE_STRUCTURE_URL = f"{API_URL}/generate_structure"
 
 # Get the absolute path of the directory where the script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
-COLUMNS_INFO_FILENAME = "columns_info.json"
+COLUMNS_INFO_FILENAME = "data_structure.json"
 COLUMNS_INFO_PATH = os.path.join(SCRIPT_DIR, os.pardir, os.pardir, 'shared_config', COLUMNS_INFO_FILENAME)
+
+DEFAULT_FREQUENCY = 1
 
 def get_categorical_columns(columns_info : dict) -> dict:
     categorical_columns = {}
 
-    for table in columns_info:
-        for column in columns_info[table]:
-            if column['values'] != None:
-                categorical_columns[column['fieldname']] = {
-                    key: value for key, value in column.items() if key != 'fieldname'
-                }
+    for column in columns_info:
+        if 'values' in columns_info[column]:
+            categorical_columns[column] = columns_info[column]['values']
+            
 
     return categorical_columns
 
 def get_numerical_columns(columns_info: dict) -> dict:
     numerical_columns = {}
 
-    for table in columns_info:
-        for column in columns_info[table]:
-            if column['values'] == None:
-                numerical_columns[column['fieldname']] = {
-                    key: value for key, value in column.items() if key != 'fieldname'
-                }
+    for column in columns_info:
+        if 'values' not in columns_info[column]:
+            numerical_columns[column] = columns_info[column]['type']
     
     return numerical_columns 
 
@@ -85,18 +83,6 @@ def _main(FREQUENCY : int):
     None
     """
     try:
-
-        # Read the JSON file
-        with open(COLUMNS_INFO_PATH, 'r') as file:
-            columns_info = json.load(file)['tables']
-
-        categorical_columns = get_categorical_columns(columns_info)
-        logging.info("Categorical columns identified")
-        
-        numerical_columns = get_numerical_columns(columns_info)
-        logging.info("Numerical columns identified")
-
-        categorical_columns.pop('TARGET', None)
 
         # Train the model
         data = {
@@ -129,6 +115,24 @@ def _main(FREQUENCY : int):
         most_important_features = response_json['features']
         logging.info(f"Most important features:\n{most_important_features}")
 
+        # Generate the data structure JSON file
+        response = requests.get(GENERATE_STRUCTURE_URL)
+        if(response.status_code != 200):
+            raise Exception(f"An error occurred while generating the data structure: {response.json()['message']}")
+        logging.info(f"Data structure generated successfully: {response.json()['message']}")
+
+
+        # Read the JSON file
+        with open(COLUMNS_INFO_PATH, 'r') as file:
+            columns_info = json.load(file)
+
+        categorical_columns = get_categorical_columns(columns_info)
+        logging.info("Categorical columns identified")
+        
+        numerical_columns = get_numerical_columns(columns_info)
+        logging.info("Numerical columns identified")
+
+        categorical_columns.pop('TARGET', None)
 
         # Display the user interface
         user_interface = DashUserInterface(categorical_columns, numerical_columns)
@@ -157,7 +161,7 @@ if __name__ == "__main__":
             raise argparse.ArgumentTypeError("Frequency must be a positive integer.")
         
         # Extract the frequency and download path from command line arguments
-        FREQUENCY = args.frequency
+        FREQUENCY = args.frequency if args.frequency else DEFAULT_FREQUENCY
 
         # Call the main function
         _main(FREQUENCY)

@@ -1,3 +1,4 @@
+import json
 import numpy as np
 import pandas as pd
 from backend.src.data_processing.read_data_abc import ReadDataABC
@@ -100,8 +101,7 @@ class SimpleReadData(ReadDataABC):
             )
             - bureau_data['DAYS_CREDIT'] 
         )
-        bureau_data['CREDIT_DURATION'] = bureau_data['CREDIT_DURATION'].fillna(0)
-        bureau_data['CREDIT_DURATION'] = bureau_data['CREDIT_DURATION'].astype('int64')
+        bureau_data['CREDIT_DURATION'] = bureau_data['CREDIT_DURATION'].fillna(0).astype('int64')
 
         one_hot_encoding_columns = [
             'CREDIT_ACTIVE',
@@ -228,6 +228,7 @@ class SimpleReadData(ReadDataABC):
             'NFLAG_INSURED_ON_APPROVAL'
         ]
 
+        previous_application_data['NFLAG_INSURED_ON_APPROVAL'] = previous_application_data['NFLAG_INSURED_ON_APPROVAL'].fillna(0).astype('int64')
         previous_application_data = self.one_hot_encode(previous_application_data, categorical_columns)
         
         aggregate_dict = {
@@ -280,7 +281,7 @@ class SimpleReadData(ReadDataABC):
 
         return aggregated_pos_cash_balance_data
     
-    def read_data(self, files_path: str, concat: bool, sampling_frequency: int) -> pd.DataFrame:
+    def retrieve_data(self, files_path: str, sampling_frequency: int) -> pd.DataFrame:
         """
         Read data from a list of CSV files.
 
@@ -289,7 +290,6 @@ class SimpleReadData(ReadDataABC):
 
         Parameters:
         files_path (str): The path where the files are located.
-        concat (bool): Whether to read and concatenate the data from all the files or just read the main file.
         sampling_frequency (int): The sampling frequency to use when reading the data. 10 means 1 out of 10 rows will be read.
 
         Returns:
@@ -301,26 +301,25 @@ class SimpleReadData(ReadDataABC):
         train_data = pd.read_csv(f"{files_path}/{ReadDataABC.APPLICATION_TRAIN_NAME}", skiprows=lambda i: i % sampling_frequency != 0)
 
         data = train_data
+        
+        data_files = {
+            ReadDataABC.BUREAU_NAME: self.get_aggregated_bureau_data,
+            ReadDataABC.CREDIT_CARD_BALANCE_NAME: self.get_aggregated_credit_card_balance_data,
+            ReadDataABC.INSTALLMENTS_PAYMENTS_NAME: self.get_aggregated_installments_payments_data,
+            ReadDataABC.PREVIOUS_APPLICATION_NAME: self.get_aggregated_previous_application_data,
+            ReadDataABC.POS_CASH_BALANCE_NAME: self.get_aggregated_pos_cash_balance_data
+        }
 
-        if concat:
-            data_files = {
-                ReadDataABC.BUREAU_NAME: self.get_aggregated_bureau_data,
-                ReadDataABC.CREDIT_CARD_BALANCE_NAME: self.get_aggregated_credit_card_balance_data,
-                ReadDataABC.INSTALLMENTS_PAYMENTS_NAME: self.get_aggregated_installments_payments_data,
-                ReadDataABC.PREVIOUS_APPLICATION_NAME: self.get_aggregated_previous_application_data,
-                ReadDataABC.POS_CASH_BALANCE_NAME: self.get_aggregated_pos_cash_balance_data
-            }
-
-            for file_name, aggregation_method in data_files.items():
-                temp_data = pd.read_csv(f"{files_path}/{file_name}")
-                temp_data = temp_data[temp_data['SK_ID_CURR'].isin(train_data['SK_ID_CURR'])]
-                aggregated_data = aggregation_method(temp_data)
-                data = pd.merge(data, aggregated_data, on="SK_ID_CURR", how="outer")
+        for file_name, aggregation_method in data_files.items():
+            temp_data = pd.read_csv(f"{files_path}/{file_name}")
+            temp_data = temp_data[temp_data['SK_ID_CURR'].isin(train_data['SK_ID_CURR'])]
+            aggregated_data = aggregation_method(temp_data)
+            data = pd.merge(data, aggregated_data, on="SK_ID_CURR", how="outer")
      
         # Concatenate all the data into a single DataFrame
         return data
     
-    def write_data_for_model(self, files_path : str, filename: str):
+    def write_data_for_model(self, files_path : str, filename: str, sampling_frequency: int = 1):
         """
         Write the data for the model.
         It is a merge of the training data and the aggregated data from the other tables.
@@ -330,6 +329,59 @@ class SimpleReadData(ReadDataABC):
         filename (str): The name of the file to write.
         """
         
-        data = self.read_data(files_path, concat=True, sampling_frequency=1)
+        data = self.retrieve_data(files_path, sampling_frequency=sampling_frequency)
     
         data.to_csv(f"{files_path}/{filename}", index=False)
+
+    def read_data(self, file_path: str, filename: str):
+        """
+        Read data from a CSV file.
+
+        This method reads the file specified by filename from the directory specified by file_path.
+        It assumes that the file is in CSV format.
+
+        Parameters:
+        file_path (str): The path where the file is located.
+        filename (str): The name of the file to read.
+
+        Returns:
+        pd.DataFrame: The data read from the file as a pandas DataFrame.
+        """
+        # Read the data from the file
+        data = pd.read_csv(f"{file_path}/{filename}")
+
+        # Return the data
+        return data
+    
+    def write_data_structure_json(self, data: pd.DataFrame, file_path: str, filename: str):
+        """
+        Write the data structure to a JSON file.
+
+        This method writes the data structure to a JSON file.
+        It assumes that the file is in JSON format.
+
+        Parameters:
+        file_path (str): The path where the file is located.
+        filename (str): The name of the file to write.
+        """
+    
+        schema = {}
+        for col in data.columns:
+            # Determine the datatype of the column
+            dtype = str(data[col].dtype)
+
+            # If the datatype is numerical or there are too many unique values, skip the values list
+            if (dtype.startswith('int') and data[col].nunique() > 2 ) or dtype.startswith('float') :
+                schema[col] = {'type': dtype}
+            else:
+                # For non-numerical types with less than 50 unique values
+                unique_values = data[col].dropna().unique()
+               
+                schema[col] = {
+                    'type': dtype,
+                    'values': unique_values.tolist()
+                }
+
+        with open(f"{file_path}/{filename}", 'w') as f:
+            json.dump(schema, f, indent=4)
+
