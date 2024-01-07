@@ -315,7 +315,21 @@ class SimpleReadData(ReadDataABC):
                 temp_data = pd.read_csv(f"{files_path}/{file_name}")
                 temp_data = temp_data[temp_data['SK_ID_CURR'].isin(train_data['SK_ID_CURR'])]
                 aggregated_data = aggregation_method(temp_data)
-                data = pd.merge(data, aggregated_data, on="SK_ID_CURR")
+                data = pd.merge(data, aggregated_data, on="SK_ID_CURR", how="outer")
      
         # Concatenate all the data into a single DataFrame
         return data
+    
+    def write_data_for_model(self, files_path : str, filename: str):
+        """
+        Write the data for the model.
+        It is a merge of the training data and the aggregated data from the other tables.
+
+        Parameters:
+        files_path (str): The path where the file are located.
+        filename (str): The name of the file to write.
+        """
+        
+        data = self.read_data(files_path, concat=True, sampling_frequency=1)
+    
+        data.to_csv(f"{files_path}/{filename}", index=False)

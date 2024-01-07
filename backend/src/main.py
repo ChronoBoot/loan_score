@@ -10,6 +10,7 @@ loader = SimpleLoadData()
 reader = SimpleReadData()
 
 FILES_FOLDER = 'data'
+DATA_FILE_MODEL = 'data_for_model.csv'
 
 @app.route('/test', methods=['GET'])
 def test():
@@ -45,6 +46,11 @@ def most_important_features():
     nb_features = data['nb_features']
     features = predictor.get_most_important_features(nb_features)
     return jsonify({'features': features.to_dict()}), 200
+
+@app.route('/write_model_data', methods=['GET'])
+def write_model_data():
+    reader.write_data_for_model(FILES_FOLDER, DATA_FILE_MODEL)
+    return jsonify({'message': 'Model data written successfully'}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

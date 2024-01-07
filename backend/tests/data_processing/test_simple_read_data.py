@@ -549,6 +549,27 @@ class TestSimpleReadData(unittest.TestCase):
 
         self.assertTrue(isinstance(result, pd.DataFrame))
         pd.testing.assert_frame_equal(result, expected_result)
+
+    @patch('pandas.DataFrame.to_csv')
+    @patch('backend.src.data_processing.simple_read_data.SimpleReadData.read_data')
+    def test_write_data_for_model(self, mock_read_data, mock_to_csv):
+        # Create a mock DataFrame to return from read_data
+        mock_df = pd.DataFrame({
+            'SK_ID_CURR': [1, 2, 3],
+            'DATA': ['A', 'B', 'C']
+        })
+        mock_read_data.return_value = mock_df
+
+        mock_path = 'mock_path'
+        mock_file = 'mock_file'
+
+        # Create an instance of the class and call the method
+        self.reader.write_data_for_model(mock_path, mock_file)
+
+        # Check that the result is as expected
+        mock_read_data.assert_called_once_with(mock_path, concat = True, sampling_frequency = 1)
+        mock_df.to_csv.assert_called_once_with(f"{mock_path}/{mock_file}", index=False)
+
         
 
 if __name__ == '__main__':
