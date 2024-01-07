@@ -18,7 +18,7 @@ class SimpleReadData(ReadDataABC):
         columns_names (str): The names of the columns to one-hot encode.
 
         Returns:
-        pd.DataFrame: The one-hot encoded data.
+        pd.DataFrame: The one-hot encoded data concated with the original data.
         """
         prefixes = [column_name for column_name in columns_names]
 
@@ -28,7 +28,7 @@ class SimpleReadData(ReadDataABC):
     
     def update_aggregation_dict(self, data: pd.DataFrame, aggregation_dict: dict, prefixes: list) -> None:
         """
-        Update the aggregation dictionary.
+        Update the aggregation dictionary with a count for each column starting with the prefixes.
 
         Parameters:
         aggregation_dict (dict): The aggregation dictionary to update.
@@ -37,7 +37,7 @@ class SimpleReadData(ReadDataABC):
         """
         for prefix in prefixes:
             aggregation_dict.update({
-                col: pd.Series.count for col in data.columns if col.startswith(prefix.join('_'))
+                col: ['sum'] for col in data.columns if col.startswith(f"{prefix}_")
             })
 
     def flatten_and_reset_index(self, data: pd.DataFrame) -> pd.DataFrame:
@@ -93,12 +93,15 @@ class SimpleReadData(ReadDataABC):
         # Calculte the duration of the credit
         # We either use the factual end date or the expected end date (if credit is not closed)
         bureau_data = bureau_data.assign(
-            CREDIT_DURATION = bureau_data['DAYS_CREDIT'] - np.where(
+            CREDIT_DURATION = np.where(
                 bureau_data['DAYS_ENDDATE_FACT'].isnull(),
                 bureau_data['DAYS_CREDIT_ENDDATE'],
                 bureau_data['DAYS_ENDDATE_FACT']
             )
+            - bureau_data['DAYS_CREDIT'] 
         )
+        bureau_data['CREDIT_DURATION'] = bureau_data['CREDIT_DURATION'].fillna(0)
+        bureau_data['CREDIT_DURATION'] = bureau_data['CREDIT_DURATION'].astype('int64')
 
         one_hot_encoding_columns = [
             'CREDIT_ACTIVE',
@@ -108,7 +111,7 @@ class SimpleReadData(ReadDataABC):
 
         bureau_data = self.one_hot_encode(bureau_data, one_hot_encoding_columns)
 
-        aggreagation_dict = {
+        aggregation_dict = {
             'DAYS_CREDIT': ['max', 'min'],
             'CREDIT_DAY_OVERDUE': ['max', 'min', 'mean'],
             'CREDIT_DURATION': ['max', 'min', 'mean'],
@@ -122,7 +125,7 @@ class SimpleReadData(ReadDataABC):
             'AMT_ANNUITY': ['max', 'min', 'mean'],
         }
 
-        aggregated_bureau_data = self.aggregate_data(bureau_data, aggreagation_dict, one_hot_encoding_columns, 'SK_ID_CURR')
+        aggregated_bureau_data = self.aggregate_data(bureau_data, aggregation_dict, one_hot_encoding_columns, 'SK_ID_CURR')
         aggregated_bureau_data['DAYS_CREDIT_DIFF_MEAN'] = bureau_data_days_credit_diff_mean
 
         return aggregated_bureau_data
@@ -235,14 +238,16 @@ class SimpleReadData(ReadDataABC):
             'AMT_GOODS_PRICE': ['max', 'min', 'mean'],
             'HOUR_APPR_PROCESS_START': ['max', 'min', 'mean'],
             'RATE_DOWN_PAYMENT': ['max', 'min', 'mean'],
-            'DAYS_DECISION': ['max', 'min'],
+            'RATE_INTEREST_PRIMARY': ['max', 'min', 'mean'],
+            'RATE_INTEREST_PRIVILEGED': ['max', 'min', 'mean'],
+            'DAYS_DECISION': ['max', 'min', 'mean'],
             'SELLERPLACE_AREA': ['max', 'min', 'mean'],
             'CNT_PAYMENT': ['max', 'min', 'mean'],
-            'DAYS_FIRST_DRAWING': ['max', 'min'],
-            'DAYS_FIRST_DUE': ['max', 'min'],
-            'DAYS_LAST_DUE_1ST_VERSION': ['max', 'min'],
-            'DAYS_LAST_DUE': ['max', 'min'],
-            'DAYS_TERMINATION': ['max', 'min'],
+            'DAYS_FIRST_DRAWING': ['max', 'min', 'mean'],
+            'DAYS_FIRST_DUE': ['max', 'min', 'mean'],
+            'DAYS_LAST_DUE_1ST_VERSION': ['max', 'min', 'mean'],
+            'DAYS_LAST_DUE': ['max', 'min', 'mean'],
+            'DAYS_TERMINATION': ['max', 'min', 'mean'],
         }
 
         aggregated_previous_application_data = self.aggregate_data(previous_application_data, aggregate_dict, categorical_columns, 'SK_ID_CURR')
