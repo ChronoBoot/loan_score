@@ -374,7 +374,7 @@ class SimpleReadData(ReadDataABC):
             if (dtype.startswith('int') and data[col].nunique() > 2 ) or dtype.startswith('float') :
                 schema[col] = {'type': dtype}
             else:
-                # For non-numerical types with less than 50 unique values
+                # For non-numerical types
                 unique_values = data[col].dropna().unique()
                
                 schema[col] = {

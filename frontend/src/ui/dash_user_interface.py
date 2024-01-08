@@ -108,7 +108,11 @@ class DashUserInterface(UserInterface):
             data = dict(zip(combined_keys, args))            
 
             prediction = self.predict(data)
-            return True, f'The prediction is: {prediction}'
+
+            if(prediction == 1):
+                return True, 'The prediction is: Loan will not be repaid'
+            else:
+                return True, 'The prediction is: Loan will be repaid'
 
         return no_update, ''
 
@@ -134,7 +138,7 @@ class DashUserInterface(UserInterface):
         host = os.getenv("HOST", '0.0.0.0')
         self.app.run_server(debug=True, host=host, port=port)
 
-    def predict(self, data : dict =[]):
+    def predict(self, data : dict =[]) -> int:
         """
         Predicts the loan using the given data.
 
@@ -154,6 +158,6 @@ class DashUserInterface(UserInterface):
         
         if response.status_code == 200:
             prediction = response.json()
-            return prediction
+            return int(prediction['prediction'])
         else:
             return None

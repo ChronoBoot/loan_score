@@ -574,5 +574,43 @@ class TestSimpleReadData(unittest.TestCase):
         self.assertTrue(isinstance(result, pd.DataFrame))
         pd.testing.assert_frame_equal(result, mock_df)
 
+    @patch('builtins.open')
+    @patch('json.dump')
+    def test_write_data_structure_json(self, mock_json_dump, mock_open):
+        # Arrange
+        mock_df = pd.DataFrame({
+            'SK_ID_CURR': [1, 2, 3],
+            'LOAN_AMOUNT': [100000.5, 200000.5, 300000.5],
+            'DATA': ['A', 'B', 'C'],
+            'FLAG': [1, 0, 1]
+        })
+        mock_path = 'mock_path'
+        mock_file = 'mock_file.json'
+
+        mock_open.return_value.__enter__.return_value = mock_open
+        mock_open.return_value.__exit__.return_value = None
+
+        # Act
+        self.reader.write_data_structure_json(mock_df, mock_path, mock_file)
+
+        # Assert
+        mock_open.assert_called_once_with(f"{mock_path}/{mock_file}", 'w')
+        mock_json_dump.assert_called_once_with({
+            'SK_ID_CURR': {
+                'type': 'int64'
+            },
+            'LOAN_AMOUNT': {
+                'type': 'float64'
+            },
+            'DATA': {
+                'type': 'object',
+                'values': ['A', 'B', 'C']
+            },
+            'FLAG': {
+                'type': 'int64',
+                'values': [1, 0]
+            }
+        }, mock_open, indent=4)
+
 if __name__ == '__main__':
     unittest.main()
