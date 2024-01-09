@@ -281,7 +281,7 @@ class SimpleReadData(ReadDataABC):
 
         return aggregated_pos_cash_balance_data
     
-    def retrieve_data(self, files_path: str, sampling_frequency: int) -> pd.DataFrame:
+    def retrieve_data(self, files_path: str, sampling_frequency: int, training : bool = True) -> pd.DataFrame:
         """
         Read data from a list of CSV files.
 
@@ -298,9 +298,12 @@ class SimpleReadData(ReadDataABC):
         # Initialize an empty list to store the data from each file
         data = []
 
-        train_data = pd.read_csv(f"{files_path}/{ReadDataABC.APPLICATION_TRAIN_NAME}", skiprows=lambda i: i % sampling_frequency != 0)
-
-        data = train_data
+        if training:
+            train_data = pd.read_csv(f"{files_path}/{ReadDataABC.APPLICATION_TRAIN_NAME}", skiprows=lambda i: i % sampling_frequency != 0)
+            data = train_data
+        else:
+            test_data = pd.read_csv(f"{files_path}/{ReadDataABC.APPLICATION_TEST_NAME}", skiprows=lambda i: i % sampling_frequency != 0)
+            data = test_data
         
         data_files = {
             ReadDataABC.BUREAU_NAME: self.get_aggregated_bureau_data,
@@ -312,14 +315,14 @@ class SimpleReadData(ReadDataABC):
 
         for file_name, aggregation_method in data_files.items():
             temp_data = pd.read_csv(f"{files_path}/{file_name}")
-            temp_data = temp_data[temp_data['SK_ID_CURR'].isin(train_data['SK_ID_CURR'])]
+            temp_data = temp_data[temp_data['SK_ID_CURR'].isin(data['SK_ID_CURR'])]
             aggregated_data = aggregation_method(temp_data)
             data = pd.merge(data, aggregated_data, on="SK_ID_CURR", how="outer")
      
         # Concatenate all the data into a single DataFrame
         return data
     
-    def write_data_for_model(self, files_path : str, filename: str, sampling_frequency: int = 1):
+    def write_data(self, files_path : str, filename: str, sampling_frequency: int = 1, training : bool = True):
         """
         Write the data for the model.
         It is a merge of the training data and the aggregated data from the other tables.
@@ -329,7 +332,8 @@ class SimpleReadData(ReadDataABC):
         filename (str): The name of the file to write.
         """
         
-        data = self.retrieve_data(files_path, sampling_frequency=sampling_frequency)
+        data = self.retrieve_data(files_path, sampling_frequency=sampling_frequency, training=training)
+        data.drop(columns=['SK_ID_CURR'], inplace=True)
     
         data.to_csv(f"{files_path}/{filename}", index=False)
 

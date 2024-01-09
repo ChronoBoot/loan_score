@@ -11,6 +11,7 @@ reader = SimpleReadData()
 
 FILES_FOLDER = 'data'
 DATA_FILE_MODEL = 'data_for_model.csv'
+DATA_FILE_TESTING = 'data_for_testing.csv'
 COMMON_STRUCTURE_PATH = 'shared_config'
 JSON_FILE_STRUCTURE = 'data_structure.json'
 
@@ -25,7 +26,7 @@ def train():
     target_variable = data['target_variable']
     
     loader.load(SimpleReadData.FILES_NAMES, FILES_FOLDER)
-    write_model_data(sampling_frequency)
+    reader.write_data(FILES_FOLDER, DATA_FILE_MODEL, sampling_frequency)
 
     loans = reader.read_data(FILES_FOLDER, DATA_FILE_MODEL)
     predictor.train(loans, target_variable)
@@ -52,7 +53,7 @@ def most_important_features():
 
 @app.route('/write_model_data', methods=['GET'])
 def write_model_data(frequency: int):
-    reader.write_data_for_model(FILES_FOLDER, DATA_FILE_MODEL, frequency)
+    reader.write_data(FILES_FOLDER, DATA_FILE_MODEL, frequency)
     return jsonify({'message': 'Model data written successfully'}), 200
 
 @app.route('/generate_structure', methods=['GET'])
@@ -60,6 +61,13 @@ def generate_structure():
     data = reader.read_data(FILES_FOLDER, DATA_FILE_MODEL)
     reader.write_data_structure_json(data, COMMON_STRUCTURE_PATH, JSON_FILE_STRUCTURE)
     return jsonify({'message': 'Structure generated successfully'}), 200
+
+@app.route('/get_loan_example', methods=['GET'])
+def get_loan_example():
+    reader.write_data(FILES_FOLDER, DATA_FILE_TESTING, 10000, False)
+    loan_example = reader.read_data(FILES_FOLDER, DATA_FILE_TESTING)
+    loan_json = loan_example.to_json(orient='records')
+    return jsonify({'loan_example': loan_json}), 200
 
 if __name__ == '__main__':
     app.run(debug=True)

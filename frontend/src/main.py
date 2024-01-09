@@ -43,6 +43,7 @@ PREDICT_URL = f"{API_URL}/predict"
 EVALUATE_URL = f"{API_URL}/evaluate"
 MOST_IMPORTANT_FEATURES_URL = f"{API_URL}/most_important_features"
 GENERATE_STRUCTURE_URL = f"{API_URL}/generate_structure"
+GET_LOAN_EXAMPLE_URL = f"{API_URL}/get_loan_example"
 
 # Get the absolute path of the directory where the script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -133,6 +134,12 @@ def _main(FREQUENCY : int):
         logging.info("Numerical columns identified")
 
         categorical_columns.pop('TARGET', None)
+
+        # Get loans application example
+        response = requests.get(GET_LOAN_EXAMPLE_URL)
+        if(response.status_code != 200):
+            raise Exception(f"An error occurred while getting the loan example: {response.json()['message']}")
+        
 
         # Display the user interface
         user_interface = DashUserInterface(categorical_columns, numerical_columns)

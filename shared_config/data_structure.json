@@ -1,7 +1,4 @@
 {
-    "SK_ID_CURR": {
-        "type": "int64"
-    },
     "TARGET": {
         "type": "int64",
         "values": [
