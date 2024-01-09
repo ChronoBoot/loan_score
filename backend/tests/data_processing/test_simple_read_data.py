@@ -597,10 +597,14 @@ class TestSimpleReadData(unittest.TestCase):
         mock_open.assert_called_once_with(f"{mock_path}/{mock_file}", 'w')
         mock_json_dump.assert_called_once_with({
             'SK_ID_CURR': {
-                'type': 'int64'
+                'type': 'int64',
+                'min': 1,
+                'max': 3
             },
             'LOAN_AMOUNT': {
-                'type': 'float64'
+                'type': 'float64',
+                'min': 100000,
+                'max': 300000
             },
             'DATA': {
                 'type': 'object',

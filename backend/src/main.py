@@ -25,7 +25,7 @@ def train():
     sampling_frequency = int(data['sampling_frequency'])
     target_variable = data['target_variable']
     
-    loader.load(SimpleReadData.FILES_NAMES, FILES_FOLDER)
+    loader.load(SimpleLoadData.CSV_URLS, FILES_FOLDER)
     reader.write_data(FILES_FOLDER, DATA_FILE_MODEL, sampling_frequency)
 
     loans = reader.read_data(FILES_FOLDER, DATA_FILE_MODEL)

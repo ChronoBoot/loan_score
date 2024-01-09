@@ -2,6 +2,7 @@ import os
 import logging
 
 from dotenv import load_dotenv
+import requests
 from backend.src.data_processing.load_data_abc import LoadData
 from azure.storage.blob import BlobServiceClient
 
@@ -13,48 +14,42 @@ class SimpleLoadData(LoadData):
     The save method is not implemented and should be implemented in a subclass if needed.
     """
 
-    def __init__(self) -> None:
-        """
-        Initializes a new instance of the SimpleLoadData class.
+    CSV_URLS = [
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/application_test.csv',
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/application_train.csv',
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/bureau.csv',
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/bureau_balance.csv',
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/credit_card_balance.csv',
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/HomeCredit_columns_description.csv',
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/installments_payments.csv',
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/POS_CASH_balance.csv',
+        'https://loanscoringgit.blob.core.windows.net/blob-csv-files/previous_application.csv',
+    ]
 
-        The SimpleLoadData class provides functionality to load data from Azure Blob Storage and save it to a local directory.
+    def download_file(self, url: str, filepath: str) -> None:
+        with requests.get(url, stream=True) as r:
+            r.raise_for_status()  # This will check for any HTTP errors
+            with open(filepath, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192): 
+                    f.write(chunk)
 
-        Args:
-            None
 
-        Returns:
-            None
-        """
-
-        load_dotenv()
-        self.blob_service_client = BlobServiceClient.from_connection_string(os.getenv('AZURE_STORAGE_CONNECTION_STRING'))
-        self.container_name = os.getenv('AZURE_STORAGE_CONTAINER_NAME')
-
-    def load(self, file_names : list, download_path: str):
+    def load(self, file_urls : list, download_path: str) -> None:
         """
         Load data from Azure Blob Storage and save it to a local directory.
 
         Args:
-            blob_service_client: The BlobServiceClient instance.
-            container_name: The name of the container.
-            file_names: The list of file names to download.
+            file_urls: The list of file urls to download.
             download_path: The local path to download the files.
 
         Returns:
             None
         """
         try:
-            container_client = self.blob_service_client.get_container_client(container=self.container_name)
-
-            if not os.path.exists(download_path):
-                os.makedirs(download_path)
-
-            for blob_name in file_names:
-                download_file_path = f"{download_path}/{blob_name}"
-                if not os.path.exists(download_file_path):
-                    blob_client = container_client.get_blob_client(blob_name)
-                    with open(download_file_path, "wb") as download_file:
-                        download_file.write(blob_client.download_blob().readall())
+            for url in file_urls:
+                filename = url.split('/')[-1]  # Extracts the file name
+                filepath = f"{download_path}/{filename}"
+                self.download_file(url, filepath)
         except Exception as e:
             logging.error(f"Failed to load data from Azure Blob Storage: {e}")
 
