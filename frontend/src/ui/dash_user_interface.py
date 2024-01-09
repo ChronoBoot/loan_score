@@ -30,10 +30,12 @@ class DashUserInterface(UserInterface):
     API_URL = "http://127.0.0.1:5000"
     PREDICT_URL = f"{API_URL}/predict"
 
-    def __init__(self, categorical_values : dict, float_values: dict) -> None: 
+    def __init__(self, categorical_values : dict, float_values: dict, loan_example: dict, field_descriptions: dict) -> None: 
         self.app = Dash(__name__)
         self.categorical_values = categorical_values
         self.float_values = float_values
+        self.loan_example = loan_example
+        self.field_descriptions = field_descriptions
 
         self.app.callback(
             Output('prediction-popup', 'displayed'),
@@ -65,21 +67,22 @@ class DashUserInterface(UserInterface):
                 style={'textAlign': 'center'}
             ),
             *[html.Div([
-                html.Label(col),
+                html.Label(self.field_descriptions[col]),
                 dcc.Dropdown(
                     id=col, 
                     options=[{'label': val, 'value': val} for val in values],
                     placeholder=f"Select {col}",
-                    value=values[0]
+                    value=self.loan_example[col]
                 )
             ]) for col, values in self.categorical_values.items()],
             *[html.Div([
-                html.Label(col),
+                html.Label(self.field_descriptions[col]),
                 dcc.Input(
                     id=col, 
                     type='number',
                     placeholder=f"Enter {col}",
-                    value=0
+                    # Because some fields are aggregated from the values, some might be missing
+                    value=self.loan_example[col] if col in self.loan_example else 0
                 )
             ]) for col in self.float_values.keys()],
             html.Button('Predict', id='predict-button', n_clicks=0),

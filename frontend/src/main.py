@@ -49,9 +49,11 @@ GET_LOAN_EXAMPLE_URL = f"{API_URL}/get_loan_example"
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 COLUMNS_INFO_FILENAME = "data_structure.json"
+FIELD_DESCRIPTIONS_FILENAME = "user_friendly_descriptions.json"
 COLUMNS_INFO_PATH = os.path.join(SCRIPT_DIR, os.pardir, os.pardir, 'shared_config', COLUMNS_INFO_FILENAME)
+FIELD_DESCRIPTIONS_PATH = os.path.join(SCRIPT_DIR, os.pardir, os.pardir, 'shared_config', FIELD_DESCRIPTIONS_FILENAME)
 
-DEFAULT_FREQUENCY = 1
+DEFAULT_FREQUENCY = 1000
 
 def get_categorical_columns(columns_info : dict) -> dict:
     categorical_columns = {}
@@ -135,14 +137,19 @@ def _main(FREQUENCY : int):
 
         categorical_columns.pop('TARGET', None)
 
+        # Read the user friendly data structure JSON file
+        with open(FIELD_DESCRIPTIONS_PATH, 'r') as file:
+            field_descriptions = json.load(file)
+
         # Get loans application example
         response = requests.get(GET_LOAN_EXAMPLE_URL)
         if(response.status_code != 200):
             raise Exception(f"An error occurred while getting the loan example: {response.json()['message']}")
-        
+        loan_example = response.json()['loan_example']
+        loan_example = json.loads(loan_example)[0]
 
         # Display the user interface
-        user_interface = DashUserInterface(categorical_columns, numerical_columns)
+        user_interface = DashUserInterface(categorical_columns, numerical_columns, loan_example, field_descriptions)
         logging.info("User interface displayed")
         user_interface.display()
 
