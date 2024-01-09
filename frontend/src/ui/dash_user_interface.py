@@ -29,10 +29,11 @@ class DashUserInterface(UserInterface):
 
     API_URL = "http://127.0.0.1:5000"
     PREDICT_URL = f"{API_URL}/predict"
+    NB_VALUES_SLIDER = 100
 
     def __init__(self, categorical_values : dict, float_values: dict, loan_example: dict, field_descriptions: dict) -> None: 
         self.app = Dash(__name__)
-        self.categorical_values = categorical_values
+        self.categorical_values = self.update_categorical_values(categorical_values)
         self.float_values = float_values
         self.loan_example = loan_example
         self.field_descriptions = field_descriptions
@@ -52,6 +53,52 @@ class DashUserInterface(UserInterface):
 
         self.app.layout = self._create_layout()
 
+    def get_nb_steps(self, min, max) -> int:
+        """
+        Gets the number of steps for the user interface slider.
+
+        Returns:
+            The number of steps.
+        """
+        diff = max - min
+
+        if diff <= 1:
+            return diff/DashUserInterface.NB_VALUES_SLIDER
+        elif diff <= DashUserInterface.NB_VALUES_SLIDER:
+            return 1
+        else:
+            return round(diff/DashUserInterface.NB_VALUES_SLIDER)
+
+    def update_categorical_values(self, categorical_values: dict) -> dict:
+        """
+        Updates the categorical values from the backend.
+        Booleans values are rewritten to Yes/No.
+        """
+        updated_categorical_values = {}
+        for column, values in categorical_values.items():
+            if set(values) == {0, 1} or set(values) == {'Y', 'N'}:
+                updated_categorical_values[column] = ['Yes', 'No']
+            else:
+                updated_categorical_values[column] = values
+        return updated_categorical_values
+       
+    def convert_boolean_to_string(self, value: str) -> str:
+        """
+        Converts a boolean value to a string.
+        If the values is not a boolean, it is returned as is.
+
+        Args:
+            value (str): The value to be converted.
+        
+        Returns:
+            The converted value.
+        """
+        if value == '0' or value == 'N':
+            return 'No'
+        elif value == '1' or value == 'Y':
+            return 'Yes'
+        else:
+            return value
 
     def _create_layout(self):
         """
@@ -72,17 +119,20 @@ class DashUserInterface(UserInterface):
                     id=col, 
                     options=[{'label': val, 'value': val} for val in values],
                     placeholder=f"Select {col}",
-                    value=self.loan_example[col]
+                    value=self.convert_boolean_to_string(str(self.loan_example[col]))
                 )
             ]) for col, values in self.categorical_values.items()],
             *[html.Div([
                 html.Label(self.field_descriptions[col]),
-                dcc.Input(
+                dcc.Slider(
                     id=col, 
-                    type='number',
-                    placeholder=f"Enter {col}",
+                    min=self.float_values[col]['min'],
+                    max=self.float_values[col]['max'],
+                    step=self.get_nb_steps(self.float_values[col]['min'], self.float_values[col]['max']),
                     # Because some fields are aggregated from the values, some might be missing
-                    value=self.loan_example[col] if col in self.loan_example else 0
+                    value=self.loan_example[col] if col in self.loan_example else 0,
+                    marks=None,
+                    tooltip={"placement": "bottom", "always_visible": True}
                 )
             ]) for col in self.float_values.keys()],
             html.Button('Predict', id='predict-button', n_clicks=0),

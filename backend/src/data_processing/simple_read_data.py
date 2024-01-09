@@ -376,7 +376,16 @@ class SimpleReadData(ReadDataABC):
 
             # If the datatype is numerical or there are too many unique values, skip the values list
             if (dtype.startswith('int') and data[col].nunique() > 2 ) or dtype.startswith('float') :
-                schema[col] = {'type': dtype}
+                min = int(data[col].min())
+                max = int(data[col].max())
+
+                max = max if max-min > 1 else max+1
+
+                schema[col] = {
+                    'type': dtype,
+                    'min': min,
+                    'max': max,
+                }
             else:
                 # For non-numerical types
                 unique_values = data[col].dropna().unique()

@@ -70,7 +70,11 @@ def get_numerical_columns(columns_info: dict) -> dict:
 
     for column in columns_info:
         if 'values' not in columns_info[column]:
-            numerical_columns[column] = columns_info[column]['type']
+            numerical_columns[column] = {
+                'type' : columns_info[column]['type'],
+                'min' : columns_info[column]['min'],
+                'max' : columns_info[column]['max']
+                }
     
     return numerical_columns 
 
@@ -152,6 +156,8 @@ def _main(FREQUENCY : int):
         user_interface = DashUserInterface(categorical_columns, numerical_columns, loan_example, field_descriptions)
         logging.info("User interface displayed")
         user_interface.display()
+
+        exit(0)
 
        
     except Exception as e:
