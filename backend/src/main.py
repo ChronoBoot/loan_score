@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from backend.src.data_processing.simple_load_data import SimpleLoadData
 from backend.src.data_processing.simple_read_data import SimpleReadData
@@ -70,4 +71,6 @@ def get_loan_example():
     return jsonify({'loan_example': loan_json}), 200
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 10000))
+    host = os.getenv("HOST", '0.0.0.0')
+    app.run(debug=True, host=host, port=port)
