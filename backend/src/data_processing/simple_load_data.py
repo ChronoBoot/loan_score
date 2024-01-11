@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import requests
 from backend.src.data_processing.load_data_abc import LoadData
 from azure.storage.blob import BlobServiceClient
+import os
 
 class SimpleLoadData(LoadData):
     """
@@ -34,7 +35,7 @@ class SimpleLoadData(LoadData):
                     f.write(chunk)
 
 
-    def load(self, file_urls : list, download_path: str) -> None:
+    def load(self, file_urls: list, download_path: str) -> None:
         """
         Load data from Azure Blob Storage and save it to a local directory.
 
@@ -46,10 +47,14 @@ class SimpleLoadData(LoadData):
             None
         """
         try:
+            if not os.path.exists(download_path):
+                os.makedirs(download_path)
+
             for url in file_urls:
                 filename = url.split('/')[-1]  # Extracts the file name
                 filepath = f"{download_path}/{filename}"
                 self.download_file(url, filepath)
+                logging.info(f"Downloaded file {filename} from Azure Blob Storage to {filepath}")
         except Exception as e:
             logging.error(f"Failed to load data from Azure Blob Storage: {e}")
 

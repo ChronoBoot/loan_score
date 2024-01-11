@@ -25,6 +25,7 @@ class RandomForestLoanPredictor(LoanPredictor):
         self.y_test = None
         self.random_state = 42
         self.test_size = 0.2
+        logging.debug("RandomForestLoanPredictor initialized")
 
     def preprocess_data(self, X: pd.DataFrame) -> pd.DataFrame:
         """
@@ -50,6 +51,8 @@ class RandomForestLoanPredictor(LoanPredictor):
         # Fill NaN values
         new_data = new_data.fillna(0)
 
+        logging.debug("Data preprocessed")
+
         return new_data
 
     def train(self, loans: pd.DataFrame, target_variable: str) -> None:
@@ -72,6 +75,8 @@ class RandomForestLoanPredictor(LoanPredictor):
             self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=self.test_size, random_state=self.random_state)
 
             self.model.fit(self.X_train, self.y_train)
+
+            logging.debug("Model trained")
         except Exception as e:
             logging.error(f"Failed to train the model: {e}")
 
@@ -85,6 +90,7 @@ class RandomForestLoanPredictor(LoanPredictor):
         try:
             y_pred = self.model.predict(self.X_test)
             accuracy = accuracy_score(self.y_test, y_pred)
+            logging.debug(f"Model evaluated with accuracy: {accuracy}")
             return accuracy
         except Exception as e:
             logging.error(f"Failed to evaluate the model: {e}")
@@ -106,7 +112,11 @@ class RandomForestLoanPredictor(LoanPredictor):
                 if ordered_loan[column].dtype == 'object':
                     ordered_loan[column] = self.label_encoders[column].transform(ordered_loan[column])
 
-            return int(self.model.predict(ordered_loan))
+            prediction = int(self.model.predict(ordered_loan))
+
+            logging.debug(f"Predicted outcome for loan: {prediction}")
+
+            return prediction
         except Exception as e:
             logging.error(f"Failed to predict the outcome for the loan: {e}")
 
@@ -119,6 +129,7 @@ class RandomForestLoanPredictor(LoanPredictor):
         """
         try:
             feature_importances = pd.DataFrame(self.model.feature_importances_, index = self.X_train.columns, columns=['importance']).sort_values('importance', ascending=False)
+            logging.debug(f"Got the most important features")
             return feature_importances.head(nb_features)
         except Exception as e:
             logging.error(f"Failed to get the most important features: {e}")

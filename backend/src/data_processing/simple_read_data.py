@@ -1,4 +1,5 @@
 import json
+import logging
 import numpy as np
 import pandas as pd
 from backend.src.data_processing.read_data_abc import ReadDataABC
@@ -25,6 +26,8 @@ class SimpleReadData(ReadDataABC):
 
         one_hot_encoded_data = pd.concat([data] + [pd.get_dummies(data[col], prefix=pre) for col, pre in zip(columns_names, prefixes)], axis=1)
 
+        logging.debug("Data one-hot encoded")
+
         return one_hot_encoded_data
     
     def update_aggregation_dict(self, data: pd.DataFrame, aggregation_dict: dict, prefixes: list) -> None:
@@ -41,6 +44,8 @@ class SimpleReadData(ReadDataABC):
                 col: ['sum'] for col in data.columns if col.startswith(f"{prefix}_")
             })
 
+        logging.debug("Aggregation dictionary updated")
+
     def flatten_and_reset_index(self, data: pd.DataFrame) -> pd.DataFrame:
         """
         Flatten the MultiIndex columns and reset the index.
@@ -53,6 +58,8 @@ class SimpleReadData(ReadDataABC):
 
         # Reset the index
         data.reset_index(inplace=True)
+
+        logging.debug("Data flattened and index reset")
 
     def aggregate_data(self, data: pd.DataFrame, aggregation_dict: dict, prefixes: list, groupby_col: str) -> pd.DataFrame:
         """
@@ -72,6 +79,8 @@ class SimpleReadData(ReadDataABC):
         aggregated_data = data.groupby(groupby_col).agg(aggregation_dict)
 
         self.flatten_and_reset_index(aggregated_data)
+
+        logging.debug("Data aggregated")
 
         return aggregated_data
 
@@ -128,6 +137,8 @@ class SimpleReadData(ReadDataABC):
         aggregated_bureau_data = self.aggregate_data(bureau_data, aggregation_dict, one_hot_encoding_columns, 'SK_ID_CURR')
         aggregated_bureau_data['DAYS_CREDIT_DIFF_MEAN'] = bureau_data_days_credit_diff_mean
 
+        logging.debug("Bureau data aggregated")
+
         return aggregated_bureau_data
     
     def get_aggregated_credit_card_balance_data(self, credit_card_balance_data: pd.DataFrame) -> pd.DataFrame:
@@ -169,6 +180,8 @@ class SimpleReadData(ReadDataABC):
 
         aggregated_credit_card_balance_data = self.aggregate_data(credit_card_balance_data, aggregate_dict, ['NAME_CONTRACT_STATUS'], 'SK_ID_CURR')
 
+        logging.debug("Credit card balance data aggregated")
+
         return aggregated_credit_card_balance_data
 
     def get_aggregated_installments_payments_data(self, installments_payments_data: pd.DataFrame) -> pd.DataFrame:
@@ -192,6 +205,8 @@ class SimpleReadData(ReadDataABC):
         }
 
         aggregated_installments_payments_data = self.aggregate_data(installments_payments_data, aggregate_dict, [], 'SK_ID_CURR')
+
+        logging.debug("Installments payments data aggregated")
 
         return aggregated_installments_payments_data
     
@@ -253,6 +268,8 @@ class SimpleReadData(ReadDataABC):
 
         aggregated_previous_application_data = self.aggregate_data(previous_application_data, aggregate_dict, categorical_columns, 'SK_ID_CURR')
 
+        logging.debug("Previous application data aggregated")
+
         return aggregated_previous_application_data
 
     def get_aggregated_pos_cash_balance_data(self, pos_cash_balance_data: pd.DataFrame) -> pd.DataFrame:
@@ -279,6 +296,8 @@ class SimpleReadData(ReadDataABC):
 
         aggregated_pos_cash_balance_data = self.aggregate_data(pos_cash_balance_data, aggregate_dict, ['NAME_CONTRACT_STATUS'], 'SK_ID_CURR')
 
+        logging.debug("Pos cash balance data aggregated")
+        
         return aggregated_pos_cash_balance_data
     
     def retrieve_data(self, files_path: str, sampling_frequency: int, training : bool = True) -> pd.DataFrame:
@@ -319,6 +338,8 @@ class SimpleReadData(ReadDataABC):
             aggregated_data = aggregation_method(temp_data)
             data = pd.merge(data, aggregated_data, on="SK_ID_CURR", how="outer")
      
+        logging.debug("Data retrieved")
+
         # Concatenate all the data into a single DataFrame
         return data
     
@@ -337,6 +358,8 @@ class SimpleReadData(ReadDataABC):
     
         data.to_csv(f"{files_path}/{filename}", index=False)
 
+        logging.debug("Data written")
+
     def read_data(self, file_path: str, filename: str):
         """
         Read data from a CSV file.
@@ -353,6 +376,8 @@ class SimpleReadData(ReadDataABC):
         """
         # Read the data from the file
         data = pd.read_csv(f"{file_path}/{filename}")
+
+        logging.debug("Data read")
 
         # Return the data
         return data
@@ -397,4 +422,6 @@ class SimpleReadData(ReadDataABC):
 
         with open(f"{file_path}/{filename}", 'w') as f:
             json.dump(schema, f, indent=4)
+
+        logging.debug("Data structure written")
 
