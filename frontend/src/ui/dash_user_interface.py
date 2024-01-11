@@ -27,9 +27,8 @@ class DashUserInterface(UserInterface):
 
     """
 
-    API_URL = "http://127.0.0.1:5000"
-    PREDICT_URL = f"{API_URL}/predict"
     NB_VALUES_SLIDER = 100
+    SERVER_PORT = 11000
 
     def __init__(self, categorical_values : dict, float_values: dict, loan_example: dict, field_descriptions: dict) -> None: 
         self.app = Dash(__name__)
@@ -187,7 +186,7 @@ class DashUserInterface(UserInterface):
         """
         Starts the Dash server and displays the user interface.
         """
-        port = int(os.environ.get("PORT", 10000))
+        port = int(os.environ.get("PORT", DashUserInterface.SERVER_PORT))
         host = os.getenv("HOST", '0.0.0.0')
         self.app.run_server(debug=True, host=host, port=port)
 

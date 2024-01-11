@@ -37,13 +37,15 @@ FILE_NAMES = [
     'sample_submission.csv'
 ]
 
-API_URL = "http://127.0.0.1:5000"
-TRAIN_URL = f"{API_URL}/train"
-PREDICT_URL = f"{API_URL}/predict"
-EVALUATE_URL = f"{API_URL}/evaluate"
-MOST_IMPORTANT_FEATURES_URL = f"{API_URL}/most_important_features"
-GENERATE_STRUCTURE_URL = f"{API_URL}/generate_structure"
-GET_LOAN_EXAMPLE_URL = f"{API_URL}/get_loan_example"
+API_URL = "http://127.0.0.1"
+API_PORT = 10000
+API_FULL_URL = f"{API_URL}:{API_PORT}"
+TRAIN_URL = f"{API_FULL_URL}/train"
+PREDICT_URL = f"{API_FULL_URL}/predict"
+EVALUATE_URL = f"{API_FULL_URL}/evaluate"
+MOST_IMPORTANT_FEATURES_URL = f"{API_FULL_URL}/most_important_features"
+GENERATE_STRUCTURE_URL = f"{API_FULL_URL}/generate_structure"
+GET_LOAN_EXAMPLE_URL = f"{API_FULL_URL}/get_loan_example"
 
 # Get the absolute path of the directory where the script is located
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
