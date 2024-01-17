@@ -15,7 +15,8 @@ class SimpleReadData(ReadDataABC):
     CHUNK_SIZE = 10000
 
     def __init__(self) -> None:
-        logging.basicConfig(level=logging.DEBUG)
+        log_format = "%(asctime)s - %(levelname)s - %(message)s"
+        logging.basicConfig(format=log_format, level=logging.DEBUG)
         logging.debug("SimpleReadData initialized")
 
     @conditional_profile

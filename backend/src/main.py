@@ -14,7 +14,9 @@ app = Flask(__name__)
 predictor = RandomForestLoanPredictor()
 loader = SimpleLoadData()
 reader = SimpleReadData()
-logging.basicConfig(level=logging.DEBUG)
+
+log_format = "%(asctime)s - %(levelname)s - %(message)s"
+logging.basicConfig(format=log_format, level=logging.DEBUG)
 app.logger = logging.getLogger(__name__)
 app.logger.addHandler(logging.StreamHandler())
 app.logger.setLevel(logging.DEBUG)
@@ -34,11 +36,14 @@ def test():
 
 @app.route('/train', methods=['POST'])
 def train():
+    app.logger.info('Training model...')
     data = request.get_json()
     sampling_frequency = int(data['sampling_frequency'])
     target_variable = data['target_variable']
+    rewrite = data['rewrite'] if 'rewrite' in data else "False"
+    rewrite_bool = True if rewrite == "True" else False
     
-    loader.load(SimpleLoadData.CSV_URLS, FILES_FOLDER)
+    loader.load(SimpleLoadData.CSV_URLS, FILES_FOLDER, rewrite_bool)
     reader.write_data(FILES_FOLDER, DATA_FILE_MODEL, sampling_frequency)
 
     loans = reader.read_data(FILES_FOLDER, DATA_FILE_MODEL)

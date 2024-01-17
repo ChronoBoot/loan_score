@@ -26,7 +26,9 @@ class RandomForestLoanPredictor(LoanPredictor):
         self.y_test = None
         self.random_state = 42
         self.test_size = 0.2
-        logging.basicConfig(level=logging.DEBUG)
+
+        log_format = "%(asctime)s - %(levelname)s - %(message)s"
+        logging.basicConfig(format=log_format, level=logging.DEBUG)
         logging.debug("RandomForestLoanPredictor initialized")
 
     @conditional_profile

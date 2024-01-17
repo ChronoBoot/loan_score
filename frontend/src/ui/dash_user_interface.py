@@ -54,6 +54,9 @@ class DashUserInterface(UserInterface):
 
         self.app.layout = self._create_layout()
 
+        log_format = "%(asctime)s - %(levelname)s - %(message)s"
+        logging.basicConfig(format=log_format, level=logging.DEBUG)
+
     def get_nb_steps(self, min, max) -> int:
         """
         Gets the number of steps for the user interface slider.

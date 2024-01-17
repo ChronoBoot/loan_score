@@ -172,7 +172,8 @@ if __name__ == "__main__":
         load_dotenv()
 
         # Configure logging
-        logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
+        log_format = "%(asctime)s - %(levelname)s - %(message)s"
+        logging.basicConfig(format=log_format, level=logging.DEBUG)
 
         # Parse command line arguments
         parser = argparse.ArgumentParser(description="Loan prediction application")

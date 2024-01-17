@@ -1,7 +1,6 @@
 import os
 import logging
 
-from dotenv import load_dotenv
 import requests
 from backend.src.data_processing.load_data_abc import LoadData
 import os
@@ -28,7 +27,8 @@ class SimpleLoadData(LoadData):
     ]
 
     def __init__(self) -> None:
-        logging.basicConfig(level=logging.DEBUG)
+        log_format = "%(asctime)s - %(levelname)s - %(message)s"
+        logging.basicConfig(format=log_format, level=logging.DEBUG)        
         logging.debug("SimpleLoadData initialized")
 
     @conditional_profile
@@ -40,7 +40,7 @@ class SimpleLoadData(LoadData):
                     f.write(chunk)
 
     @conditional_profile
-    def load(self, file_urls: list, download_path: str) -> None:
+    def load(self, file_urls: list, download_path: str, rewrite = False) -> None:
         """
         Load data from Azure Blob Storage and save it to a local directory.
 
@@ -58,6 +58,11 @@ class SimpleLoadData(LoadData):
             for url in file_urls:
                 filename = url.split('/')[-1]  # Extracts the file name
                 filepath = f"{download_path}/{filename}"
+
+                if os.path.exists(filepath) and not rewrite:
+                    logging.info(f"File {filename} already exists in {download_path}. Skipping download.")
+                    continue
+
                 self.download_file(url, filepath)
                 logging.info(f"Downloaded file {filename} from Azure Blob Storage to {filepath}")
         except Exception as e:
