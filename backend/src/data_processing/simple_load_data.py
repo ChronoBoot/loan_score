@@ -4,8 +4,8 @@ import logging
 from dotenv import load_dotenv
 import requests
 from backend.src.data_processing.load_data_abc import LoadData
-from azure.storage.blob import BlobServiceClient
 import os
+from backend.utils.profiling_utils import conditional_profile
 
 class SimpleLoadData(LoadData):
     """
@@ -27,6 +27,11 @@ class SimpleLoadData(LoadData):
         'https://loanscoringgit.blob.core.windows.net/blob-csv-files/previous_application.csv',
     ]
 
+    def __init__(self) -> None:
+        logging.basicConfig(level=logging.DEBUG)
+        logging.debug("SimpleLoadData initialized")
+
+    @conditional_profile
     def download_file(self, url: str, filepath: str) -> None:
         with requests.get(url, stream=True) as r:
             r.raise_for_status()  # This will check for any HTTP errors
@@ -34,7 +39,7 @@ class SimpleLoadData(LoadData):
                 for chunk in r.iter_content(chunk_size=8192): 
                     f.write(chunk)
 
-
+    @conditional_profile
     def load(self, file_urls: list, download_path: str) -> None:
         """
         Load data from Azure Blob Storage and save it to a local directory.

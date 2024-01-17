@@ -2,6 +2,7 @@ import unittest
 from unittest.mock import patch
 import pandas as pd
 import numpy as np
+from backend.src.data_processing.read_data_abc import ReadDataABC
 from backend.src.data_processing.simple_read_data import SimpleReadData
 
 class TestSimpleReadData(unittest.TestCase):
@@ -475,6 +476,9 @@ class TestSimpleReadData(unittest.TestCase):
         }) 
         pd.testing.assert_frame_equal(result, expected_result)
 
+    
+
+    @patch('backend.src.data_processing.simple_read_data.SimpleReadData.CHUNK_SIZE', 1)
     @patch('pandas.read_csv')
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_bureau_data')
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_credit_card_balance_data')
@@ -482,12 +486,31 @@ class TestSimpleReadData(unittest.TestCase):
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_previous_application_data')
     @patch('backend.src.data_processing.simple_read_data.SimpleReadData.get_aggregated_pos_cash_balance_data')
     def test_retrieve_data_concat(self, mock_pos, mock_previous, mock_installments, mock_credit, mock_bureau, mock_read_csv):
+        
+        # Create either a mock DataFrame or a mock iterator of chunks to return from pd.read_csv
+        def read_csv_side_effect(filepath, *args, **kwargs):
+            filepaths = [f"mock_path/{file_name}" for file_name in ReadDataABC.FILES_NAMES if file_name != ReadDataABC.APPLICATION_TRAIN_NAME]
+
+            if filepath in filepaths:
+                mock_chunk = pd.DataFrame({
+                    'SK_ID_CURR': [1, 2, 3],
+                    'DATA': ['A', 'B', 'C']
+                })
+                return iter([mock_chunk])
+            else :
+                # Create a mock DataFrame to return from pd.read_csv
+                mock_df = pd.DataFrame({
+                    'SK_ID_CURR': [1, 2, 3],
+                    'DATA': ['A', 'B', 'C']
+                })
+                return mock_df
+        
         # Create a mock DataFrame to return from pd.read_csv
         mock_df = pd.DataFrame({
             'SK_ID_CURR': [1, 2, 3],
             'DATA': ['A', 'B', 'C']
         })
-        mock_read_csv.return_value = mock_df
+        mock_read_csv.side_effect = read_csv_side_effect
 
         # Create a mock DataFrame to return from the get_aggregated_* methods
         mock_aggregated_bureau = pd.DataFrame({

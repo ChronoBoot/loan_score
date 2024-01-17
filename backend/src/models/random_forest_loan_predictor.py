@@ -3,6 +3,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import LabelEncoder
+from backend.utils.profiling_utils import conditional_profile
 
 import pandas as pd
 
@@ -25,8 +26,10 @@ class RandomForestLoanPredictor(LoanPredictor):
         self.y_test = None
         self.random_state = 42
         self.test_size = 0.2
+        logging.basicConfig(level=logging.DEBUG)
         logging.debug("RandomForestLoanPredictor initialized")
 
+    @conditional_profile
     def preprocess_data(self, X: pd.DataFrame) -> pd.DataFrame:
         """
         Preprocess the data by encoding categorical variables and filling NaN values.
@@ -55,6 +58,7 @@ class RandomForestLoanPredictor(LoanPredictor):
 
         return new_data
 
+    @conditional_profile
     def train(self, loans: pd.DataFrame, target_variable: str) -> None:
         """
         Train the predictor on a DataFrame of loans.
@@ -80,6 +84,7 @@ class RandomForestLoanPredictor(LoanPredictor):
         except Exception as e:
             logging.error(f"Failed to train the model: {e}")
 
+    @conditional_profile
     def evaluate(self) -> float:
         """
         Evaluate the performance of the predictor.
@@ -95,6 +100,7 @@ class RandomForestLoanPredictor(LoanPredictor):
         except Exception as e:
             logging.error(f"Failed to evaluate the model: {e}")
 
+    @conditional_profile
     def predict(self, loan: pd.DataFrame) -> int:
         """
         Predict the outcome for a loan.
@@ -120,6 +126,7 @@ class RandomForestLoanPredictor(LoanPredictor):
         except Exception as e:
             logging.error(f"Failed to predict the outcome for the loan: {e}")
 
+    @conditional_profile
     def get_most_important_features(self, nb_features : int) -> pd.DataFrame:
         """
         Get the most important features from the model.

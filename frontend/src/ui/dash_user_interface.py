@@ -1,3 +1,4 @@
+import logging
 from frontend.src.ui.user_interface_abc import UserInterface
 from dash import Dash, html, Input, Output, State, dcc, callback, no_update
 from backend.src.models.random_forest_loan_predictor import RandomForestLoanPredictor
@@ -30,12 +31,13 @@ class DashUserInterface(UserInterface):
     NB_VALUES_SLIDER = 100
     SERVER_PORT = 11000
 
-    def __init__(self, categorical_values : dict, float_values: dict, loan_example: dict, field_descriptions: dict) -> None: 
+    def __init__(self, categorical_values : dict, float_values: dict, loan_example: dict, field_descriptions: dict, predict_url: str) -> None: 
         self.app = Dash(__name__)
         self.categorical_values = self.update_categorical_values(categorical_values)
         self.float_values = float_values
         self.loan_example = loan_example
         self.field_descriptions = field_descriptions
+        self.predict_url = predict_url
 
         self.app.callback(
             Output('prediction-popup', 'displayed'),
@@ -157,14 +159,17 @@ class DashUserInterface(UserInterface):
         """
         if n_clicks > 0:
             combined_keys = list(self.categorical_values.keys()) + list(self.float_values.keys())
-            data = dict(zip(combined_keys, args))            
+            data = dict(zip(combined_keys, args))
 
-            prediction = self.predict(data)
+            try:            
+                prediction = self.predict(data)
 
-            if(prediction == 1):
-                return True, 'The prediction is: Loan will not be repaid'
-            else:
-                return True, 'The prediction is: Loan will be repaid'
+                if(prediction == 1):
+                    return True, 'The prediction is: Loan will not be repaid'
+                else:
+                    return True, 'The prediction is: Loan will be repaid'
+            except ValueError:
+                return True, 'The prediction when wrong. Please try again.'
 
         return no_update, ''
 
@@ -206,10 +211,13 @@ class DashUserInterface(UserInterface):
 
         json_data = json.dumps(json_dict)
         headers = {'Content-Type': 'application/json'}
-        response = requests.post(self.PREDICT_URL, data=json_data, headers=headers)
+        response = requests.post(self.predict_url, data=json_data, headers=headers)
         
         if response.status_code == 200:
             prediction = response.json()
+            logging.debug(f"Predicted outcome for loan: {prediction}")
+            if(prediction['prediction'] == None):
+                raise ValueError('Prediction is None. Something went wrong with the model')
             return int(prediction['prediction'])
         else:
             return None

@@ -156,7 +156,7 @@ def _main(FREQUENCY : int):
         loan_example = json.loads(loan_example)[0]
 
         # Display the user interface
-        user_interface = DashUserInterface(categorical_columns, numerical_columns, loan_example, field_descriptions)
+        user_interface = DashUserInterface(categorical_columns, numerical_columns, loan_example, field_descriptions, PREDICT_URL)
         logging.info("User interface displayed")
         user_interface.display()
 

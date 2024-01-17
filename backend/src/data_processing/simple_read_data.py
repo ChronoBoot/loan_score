@@ -3,6 +3,7 @@ import logging
 import numpy as np
 import pandas as pd
 from backend.src.data_processing.read_data_abc import ReadDataABC
+from backend.utils.profiling_utils import conditional_profile
 
 class SimpleReadData(ReadDataABC):
     """
@@ -11,6 +12,13 @@ class SimpleReadData(ReadDataABC):
     This class provides a simple way to read data from CSV files.
     """
 
+    CHUNK_SIZE = 10000
+
+    def __init__(self) -> None:
+        logging.basicConfig(level=logging.DEBUG)
+        logging.debug("SimpleReadData initialized")
+
+    @conditional_profile
     def one_hot_encode(self, data: pd.DataFrame, columns_names: list) -> pd.DataFrame:
         """
         One-hot encode the categorical columns in the data.
@@ -30,6 +38,7 @@ class SimpleReadData(ReadDataABC):
 
         return one_hot_encoded_data
     
+    @conditional_profile
     def update_aggregation_dict(self, data: pd.DataFrame, aggregation_dict: dict, prefixes: list) -> None:
         """
         Update the aggregation dictionary with a count for each column starting with the prefixes.
@@ -46,6 +55,7 @@ class SimpleReadData(ReadDataABC):
 
         logging.debug("Aggregation dictionary updated")
 
+    @conditional_profile
     def flatten_and_reset_index(self, data: pd.DataFrame) -> pd.DataFrame:
         """
         Flatten the MultiIndex columns and reset the index.
@@ -61,6 +71,7 @@ class SimpleReadData(ReadDataABC):
 
         logging.debug("Data flattened and index reset")
 
+    @conditional_profile
     def aggregate_data(self, data: pd.DataFrame, aggregation_dict: dict, prefixes: list, groupby_col: str) -> pd.DataFrame:
         """
         Aggregate the data.
@@ -84,6 +95,7 @@ class SimpleReadData(ReadDataABC):
 
         return aggregated_data
 
+    @conditional_profile
     def get_aggregated_bureau_data(self, bureau_data: pd.DataFrame) -> pd.DataFrame:
         """
         Aggregate the data from bureau_balance.
@@ -141,6 +153,7 @@ class SimpleReadData(ReadDataABC):
 
         return aggregated_bureau_data
     
+    @conditional_profile
     def get_aggregated_credit_card_balance_data(self, credit_card_balance_data: pd.DataFrame) -> pd.DataFrame:
         """
         Aggregate the data from credit_card_balance.
@@ -184,6 +197,7 @@ class SimpleReadData(ReadDataABC):
 
         return aggregated_credit_card_balance_data
 
+    @conditional_profile
     def get_aggregated_installments_payments_data(self, installments_payments_data: pd.DataFrame) -> pd.DataFrame:
         """
         Aggregate the data from installments_payments.
@@ -210,6 +224,7 @@ class SimpleReadData(ReadDataABC):
 
         return aggregated_installments_payments_data
     
+    @conditional_profile
     def get_aggregated_previous_application_data(self, previous_application_data: pd.DataFrame) -> pd.DataFrame:
         """
         Aggregate the data from previous_application.
@@ -272,6 +287,7 @@ class SimpleReadData(ReadDataABC):
 
         return aggregated_previous_application_data
 
+    @conditional_profile
     def get_aggregated_pos_cash_balance_data(self, pos_cash_balance_data: pd.DataFrame) -> pd.DataFrame:
         """
         Aggregate the data from pos_cash_balance.
@@ -300,6 +316,7 @@ class SimpleReadData(ReadDataABC):
         
         return aggregated_pos_cash_balance_data
     
+    @conditional_profile
     def retrieve_data(self, files_path: str, sampling_frequency: int, training : bool = True) -> pd.DataFrame:
         """
         Read data from a list of CSV files.
@@ -332,10 +349,15 @@ class SimpleReadData(ReadDataABC):
             ReadDataABC.POS_CASH_BALANCE_NAME: self.get_aggregated_pos_cash_balance_data
         }
 
+
         for file_name, aggregation_method in data_files.items():
-            temp_data = pd.read_csv(f"{files_path}/{file_name}")
-            temp_data = temp_data[temp_data['SK_ID_CURR'].isin(data['SK_ID_CURR'])]
-            aggregated_data = aggregation_method(temp_data)
+            filtered_data = pd.DataFrame()
+
+            for chunk in pd.read_csv(f"{files_path}/{file_name}", chunksize=SimpleReadData.CHUNK_SIZE):
+                filtered_chunk = chunk[chunk['SK_ID_CURR'].isin(data['SK_ID_CURR'])]
+                filtered_data = pd.concat([filtered_data, filtered_chunk])
+
+            aggregated_data = aggregation_method(filtered_data)
             data = pd.merge(data, aggregated_data, on="SK_ID_CURR", how="outer")
      
         logging.debug("Data retrieved")
@@ -343,6 +365,7 @@ class SimpleReadData(ReadDataABC):
         # Concatenate all the data into a single DataFrame
         return data
     
+    @conditional_profile
     def write_data(self, files_path : str, filename: str, sampling_frequency: int = 1, training : bool = True):
         """
         Write the data for the model.
@@ -360,6 +383,7 @@ class SimpleReadData(ReadDataABC):
 
         logging.debug("Data written")
 
+    @conditional_profile
     def read_data(self, file_path: str, filename: str):
         """
         Read data from a CSV file.
@@ -382,6 +406,7 @@ class SimpleReadData(ReadDataABC):
         # Return the data
         return data
     
+    @conditional_profile
     def write_data_structure_json(self, data: pd.DataFrame, file_path: str, filename: str):
         """
         Write the data structure to a JSON file.
