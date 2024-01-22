@@ -102,18 +102,20 @@ def most_important_features():
     app.logger.info(f'Most important features: {features}')
     return jsonify({'features': features.to_dict()}), 200
 
-@app.route('/write_model_data', methods=['GET'])
-def write_model_data(frequency: int):
-    reader.write_data(FILES_FOLDER, DATA_FILE_MODEL, frequency)
-    app.logger.info('Model data written successfully')
-    return jsonify({'message': 'Model data written successfully'}), 200
-
-@app.route('/generate_structure', methods=['GET'])
+@app.route('/generate_structure', methods=['POST'])
 def generate_structure():
-    data = reader.read_data(FILES_FOLDER, DATA_FILE_MODEL)
-    reader.write_data_structure_json(data, COMMON_STRUCTURE_PATH, JSON_FILE_STRUCTURE)
-    app.logger.info('Structure generated successfully')
-    return jsonify({'message': 'Structure generated successfully'}), 200
+    data = request.get_json()
+    rewrite = data['rewrite'] if 'rewrite' in data else "False"
+    rewrite_bool = True if rewrite == "True" else False
+
+    if rewrite_bool or not os.path.exists(f'{COMMON_STRUCTURE_PATH}/{JSON_FILE_STRUCTURE}'):
+        data = reader.read_data(FILES_FOLDER, DATA_FILE_MODEL)
+        reader.write_data_structure_json(data, COMMON_STRUCTURE_PATH, JSON_FILE_STRUCTURE)
+        app.logger.info('Structure generated successfully')
+        return jsonify({'message': 'Structure generated successfully'}), 200
+    else:
+        app.logger.info('Structure already generated')
+        return jsonify({'message': 'Structure already generated. Specify rewrite if on purpose'}), 200
 
 @app.route('/get_loan_example', methods=['GET'])
 def get_loan_example():

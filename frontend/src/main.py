@@ -126,7 +126,7 @@ def _main(FREQUENCY : int):
         logging.info(f"Most important features:\n{most_important_features}")
 
         # Generate the data structure JSON file
-        response = requests.get(GENERATE_STRUCTURE_URL)
+        response = requests.post(GENERATE_STRUCTURE_URL, json={})
         if(response.status_code != 200):
             raise Exception(f"An error occurred while generating the data structure: {response.json()['message']}")
         logging.info(f"Data structure generated successfully: {response.json()['message']}")
