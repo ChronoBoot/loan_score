@@ -33,6 +33,7 @@ class DashUserInterface(UserInterface):
 
     def __init__(self, categorical_values : dict, float_values: dict, loan_example: dict, field_descriptions: dict, predict_url: str) -> None: 
         self.app = Dash(__name__)
+        self.original_categorical_values = categorical_values
         self.categorical_values = self.update_categorical_values(categorical_values)
         self.float_values = float_values
         self.loan_example = loan_example
@@ -85,24 +86,17 @@ class DashUserInterface(UserInterface):
             else:
                 updated_categorical_values[column] = values
         return updated_categorical_values
-       
-    def convert_boolean_to_string(self, value: str) -> str:
+    
+    def format_booleans(self, data: dict) -> dict:
         """
-        Converts a boolean value to a string.
-        If the values is not a boolean, it is returned as is.
-
-        Args:
-            value (str): The value to be converted.
-        
-        Returns:
-            The converted value.
+        Formats the boolean values to 0/1.
         """
-        if value == '0' or value == 'N':
-            return 'No'
-        elif value == '1' or value == 'Y':
-            return 'Yes'
-        else:
-            return value
+        for column, values in data.items():
+            if column in self.original_categorical_values and set(self.original_categorical_values[column]) == {0, 1}:
+                data[column] = 1 if values == 'Yes' else 0
+            elif column in self.original_categorical_values and set(self.original_categorical_values[column]) == {'Y', 'N'}:
+                data[column] = '1' if values == 'Yes' else '0'
+        return data
 
     def _create_layout(self):
         """
@@ -123,7 +117,7 @@ class DashUserInterface(UserInterface):
                     id=col, 
                     options=[{'label': val, 'value': val} for val in values],
                     placeholder=f"Select {col}",
-                    value=self.convert_boolean_to_string(str(self.loan_example[col]))
+                    value=self.loan_example[col]
                 )
             ]) for col, values in self.categorical_values.items()],
             *[html.Div([
@@ -163,6 +157,7 @@ class DashUserInterface(UserInterface):
         if n_clicks > 0:
             combined_keys = list(self.categorical_values.keys()) + list(self.float_values.keys())
             data = dict(zip(combined_keys, args))
+            data = self.format_booleans(data)
 
             try:            
                 prediction = self.predict(data)
@@ -172,7 +167,7 @@ class DashUserInterface(UserInterface):
                 else:
                     return True, 'The prediction is: Loan will be repaid'
             except ValueError:
-                return True, 'The prediction when wrong. Please try again.'
+                return True, 'The prediction went wrong. Please try again.'
 
         return no_update, ''
 

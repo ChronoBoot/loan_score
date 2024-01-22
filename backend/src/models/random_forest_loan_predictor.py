@@ -1,4 +1,5 @@
 import logging
+from pickle import dump, load
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
@@ -85,6 +86,7 @@ class RandomForestLoanPredictor(LoanPredictor):
             logging.debug("Model trained")
         except Exception as e:
             logging.error(f"Failed to train the model: {e}")
+            raise e
 
     @conditional_profile
     def evaluate(self) -> float:
@@ -101,6 +103,7 @@ class RandomForestLoanPredictor(LoanPredictor):
             return accuracy
         except Exception as e:
             logging.error(f"Failed to evaluate the model: {e}")
+            raise e
 
     @conditional_profile
     def predict(self, loan: pd.DataFrame) -> int:
@@ -127,6 +130,7 @@ class RandomForestLoanPredictor(LoanPredictor):
             return prediction
         except Exception as e:
             logging.error(f"Failed to predict the outcome for the loan: {e}")
+            raise e
 
     @conditional_profile
     def get_most_important_features(self, nb_features : int) -> pd.DataFrame:
@@ -142,3 +146,24 @@ class RandomForestLoanPredictor(LoanPredictor):
             return feature_importances.head(nb_features)
         except Exception as e:
             logging.error(f"Failed to get the most important features: {e}")
+            raise e
+
+    @conditional_profile
+    def save_model(self, path: str) -> None:
+        try:
+            with open(path, "wb") as f:
+                dump(self, f)
+            logging.debug(f"Model saved to {path}")
+        except Exception as e:
+            logging.error(f"Failed to save the model: {e}")
+            raise e
+        
+    @conditional_profile
+    def load_model(self, path: str) -> None:
+        try:
+            with open(path, "rb") as f:
+                self = load(f)
+            logging.debug(f"Model loaded from {path}")
+        except Exception as e:
+            logging.error(f"Failed to load the model: {e}")
+            raise e

@@ -98,7 +98,7 @@ def _main(FREQUENCY : int):
         data = {
             "sampling_frequency": FREQUENCY,
             "target_variable": "TARGET",
-            "concat": "True"
+            "save_model": "True",
         }
 
         response = requests.post(TRAIN_URL, json=data)

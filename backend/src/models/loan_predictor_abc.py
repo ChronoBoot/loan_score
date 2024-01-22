@@ -53,3 +53,29 @@ class LoanPredictor(ABC):
             pd.DataFrame: A DataFrame of the most important features.
         """
         pass
+
+    @abstractmethod
+    def save_model(self, path: str) -> None:
+        """
+        Save the model to a file.
+
+        Args:
+            path (str): The path to save the model to.
+
+        Returns:
+            None
+        """
+        pass
+
+    @abstractmethod
+    def load_model(self, path: str) -> None:
+        """
+        Load the model from a file.
+
+        Args:
+            path (str): The path to load the model from.
+
+        Returns:
+            None
+        """
+        pass

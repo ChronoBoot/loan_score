@@ -9,8 +9,8 @@
     "NAME_CONTRACT_TYPE": {
         "type": "object",
         "values": [
-            "Revolving loans",
-            "Cash loans"
+            "Cash loans",
+            "Revolving loans"
         ]
     },
     "CODE_GENDER": {
@@ -23,8 +23,8 @@
     "FLAG_OWN_CAR": {
         "type": "object",
         "values": [
-            "N",
-            "Y"
+            "Y",
+            "N"
         ]
     },
     "FLAG_OWN_REALTY": {
@@ -37,27 +37,27 @@
     "CNT_CHILDREN": {
         "type": "int64",
         "min": 0,
-        "max": 19
+        "max": 3
     },
     "AMT_INCOME_TOTAL": {
         "type": "float64",
-        "min": 27000,
-        "max": 3150000
+        "min": 45000,
+        "max": 900000
     },
     "AMT_CREDIT": {
         "type": "float64",
-        "min": 45000,
-        "max": 4050000
+        "min": 47970,
+        "max": 2250000
     },
     "AMT_ANNUITY": {
         "type": "float64",
-        "min": 1980,
-        "max": 225000
+        "min": 5292,
+        "max": 93478
     },
     "AMT_GOODS_PRICE": {
         "type": "float64",
         "min": 45000,
-        "max": 4050000
+        "max": 2250000
     },
     "NAME_TYPE_SUITE": {
         "type": "object",
@@ -67,39 +67,34 @@
             "Spouse, partner",
             "Children",
             "Other_B",
-            "Other_A",
-            "Group of people"
+            "Other_A"
         ]
     },
     "NAME_INCOME_TYPE": {
         "type": "object",
         "values": [
             "Working",
-            "State servant",
             "Commercial associate",
-            "Pensioner",
-            "Student",
-            "Maternity leave",
-            "Unemployed"
+            "State servant",
+            "Pensioner"
         ]
     },
     "NAME_EDUCATION_TYPE": {
         "type": "object",
         "values": [
             "Secondary / secondary special",
-            "Higher education",
             "Incomplete higher",
-            "Lower secondary",
-            "Academic degree"
+            "Higher education",
+            "Lower secondary"
         ]
     },
     "NAME_FAMILY_STATUS": {
         "type": "object",
         "values": [
-            "Single / not married",
             "Married",
-            "Widow",
+            "Single / not married",
             "Civil marriage",
+            "Widow",
             "Separated"
         ]
     },
@@ -107,11 +102,11 @@
         "type": "object",
         "values": [
             "House / apartment",
-            "With parents",
-            "Office apartment",
-            "Municipal apartment",
             "Rented apartment",
-            "Co-op apartment"
+            "With parents",
+            "Co-op apartment",
+            "Municipal apartment",
+            "Office apartment"
         ]
     },
     "REGION_POPULATION_RELATIVE": {
@@ -121,23 +116,23 @@
     },
     "DAYS_BIRTH": {
         "type": "int64",
-        "min": -25170,
-        "max": -7680
+        "min": -24835,
+        "max": -8131
     },
     "DAYS_EMPLOYED": {
         "type": "int64",
-        "min": -17583,
+        "min": -15543,
         "max": 365243
     },
     "DAYS_REGISTRATION": {
         "type": "float64",
-        "min": -22442,
-        "max": 0
+        "min": -16051,
+        "max": -7
     },
     "DAYS_ID_PUBLISH": {
         "type": "int64",
-        "min": -6258,
-        "max": 0
+        "min": -6037,
+        "max": -47
     },
     "OWN_CAR_AGE": {
         "type": "float64",
@@ -147,8 +142,7 @@
     "FLAG_MOBIL": {
         "type": "int64",
         "values": [
-            1,
-            0
+            1
         ]
     },
     "FLAG_EMP_PHONE": {
@@ -161,22 +155,21 @@
     "FLAG_WORK_PHONE": {
         "type": "int64",
         "values": [
-            0,
-            1
+            1,
+            0
         ]
     },
     "FLAG_CONT_MOBILE": {
         "type": "int64",
         "values": [
-            1,
-            0
+            1
         ]
     },
     "FLAG_PHONE": {
         "type": "int64",
         "values": [
-            0,
-            1
+            1,
+            0
         ]
     },
     "FLAG_EMAIL": {
@@ -189,30 +182,28 @@
     "OCCUPATION_TYPE": {
         "type": "object",
         "values": [
-            "Laborers",
-            "Core staff",
-            "Managers",
-            "Waiters/barmen staff",
-            "Accountants",
-            "Sales staff",
             "Drivers",
+            "Sales staff",
+            "Laborers",
             "Medicine staff",
-            "Security staff",
-            "High skill tech staff",
-            "Cooking staff",
-            "Low-skill Laborers",
-            "Cleaning staff",
-            "Secretaries",
-            "Realty agents",
             "Private service staff",
-            "HR staff",
-            "IT staff"
+            "Managers",
+            "High skill tech staff",
+            "Accountants",
+            "Security staff",
+            "Cooking staff",
+            "Secretaries",
+            "Core staff",
+            "Cleaning staff",
+            "IT staff",
+            "Low-skill Laborers",
+            "HR staff"
         ]
     },
     "CNT_FAM_MEMBERS": {
         "type": "float64",
         "min": 1,
-        "max": 20
+        "max": 5
     },
     "REGION_RATING_CLIENT": {
         "type": "int64",
@@ -228,18 +219,18 @@
         "type": "object",
         "values": [
             "THURSDAY",
-            "MONDAY",
-            "TUESDAY",
-            "SATURDAY",
             "WEDNESDAY",
             "FRIDAY",
-            "SUNDAY"
+            "TUESDAY",
+            "MONDAY",
+            "SUNDAY",
+            "SATURDAY"
         ]
     },
     "HOUR_APPR_PROCESS_START": {
         "type": "int64",
         "min": 0,
-        "max": 23
+        "max": 20
     },
     "REG_REGION_NOT_LIVE_REGION": {
         "type": "int64",
@@ -286,63 +277,39 @@
     "ORGANIZATION_TYPE": {
         "type": "object",
         "values": [
-            "Electricity",
-            "Kindergarten",
             "Business Entity Type 3",
-            "Transport: type 2",
-            "Other",
-            "XNA",
-            "Business Entity Type 1",
-            "Self-employed",
-            "Government",
-            "School",
-            "Industry: type 3",
             "Transport: type 4",
             "Medicine",
-            "Business Entity Type 2",
-            "Security",
-            "Military",
-            "Industry: type 1",
-            "Security Ministries",
+            "Industry: type 3",
+            "Business Entity Type 1",
+            "Other",
+            "Industry: type 11",
             "Construction",
+            "Security Ministries",
+            "Business Entity Type 2",
+            "Self-employed",
+            "Insurance",
+            "Government",
+            "Security",
             "Restaurant",
-            "Industry: type 9",
             "Postal",
-            "Agriculture",
-            "Trade: type 2",
+            "XNA",
+            "Transport: type 2",
+            "Kindergarten",
             "Trade: type 7",
             "Trade: type 3",
-            "Transport: type 3",
-            "Bank",
-            "University",
-            "Housing",
-            "Cleaning",
-            "Industry: type 13",
-            "Trade: type 4",
-            "Trade: type 6",
             "Services",
-            "Telecom",
-            "Industry: type 2",
-            "Emergency",
-            "Industry: type 11",
-            "Mobile",
-            "Insurance",
-            "Industry: type 10",
+            "Housing",
+            "Industry: type 9",
             "Police",
+            "School",
+            "Agriculture",
             "Industry: type 12",
-            "Religion",
-            "Legal Services",
-            "Advertising",
-            "Culture",
-            "Industry: type 7",
-            "Industry: type 5",
-            "Industry: type 4",
-            "Hotel",
+            "Bank",
+            "Industry: type 2",
+            "Trade: type 6",
             "Trade: type 1",
-            "Realtor",
-            "Transport: type 1",
-            "Trade: type 5",
-            "Industry: type 6"
+            "Military"
         ]
     },
     "EXT_SOURCE_1": {
@@ -363,22 +330,22 @@
     "APARTMENTS_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "BASEMENTAREA_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "YEARS_BEGINEXPLUATATION_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "YEARS_BUILD_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "COMMONAREA_AVG": {
         "type": "float64",
@@ -388,37 +355,37 @@
     "ELEVATORS_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "ENTRANCES_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "FLOORSMAX_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "FLOORSMIN_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LANDAREA_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LIVINGAPARTMENTS_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LIVINGAREA_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "NONLIVINGAPARTMENTS_AVG": {
         "type": "float64",
@@ -428,67 +395,67 @@
     "NONLIVINGAREA_AVG": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "APARTMENTS_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "BASEMENTAREA_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "YEARS_BEGINEXPLUATATION_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "YEARS_BUILD_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "COMMONAREA_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "ELEVATORS_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "ENTRANCES_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "FLOORSMAX_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "FLOORSMIN_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LANDAREA_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LIVINGAPARTMENTS_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LIVINGAREA_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "NONLIVINGAPARTMENTS_MODE": {
         "type": "float64",
@@ -498,67 +465,67 @@
     "NONLIVINGAREA_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "APARTMENTS_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "BASEMENTAREA_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "YEARS_BEGINEXPLUATATION_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "YEARS_BUILD_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "COMMONAREA_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "ELEVATORS_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "ENTRANCES_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "FLOORSMAX_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "FLOORSMIN_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LANDAREA_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LIVINGAPARTMENTS_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "LIVINGAREA_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "NONLIVINGAPARTMENTS_MEDI": {
         "type": "float64",
@@ -568,7 +535,7 @@
     "NONLIVINGAREA_MEDI": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "FONDKAPREMONT_MODE": {
         "type": "object",
@@ -583,25 +550,23 @@
         "type": "object",
         "values": [
             "block of flats",
-            "specific housing",
             "terraced house"
         ]
     },
     "TOTALAREA_MODE": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "WALLSMATERIAL_MODE": {
         "type": "object",
         "values": [
             "Panel",
             "Stone, brick",
-            "Mixed",
-            "Monolithic",
+            "Others",
             "Block",
             "Wooden",
-            "Others"
+            "Monolithic"
         ]
     },
     "EMERGENCYSTATE_MODE": {
@@ -614,26 +579,26 @@
     "OBS_30_CNT_SOCIAL_CIRCLE": {
         "type": "float64",
         "min": 0,
-        "max": 25
+        "max": 12
     },
     "DEF_30_CNT_SOCIAL_CIRCLE": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 4
     },
     "OBS_60_CNT_SOCIAL_CIRCLE": {
         "type": "float64",
         "min": 0,
-        "max": 25
+        "max": 12
     },
     "DEF_60_CNT_SOCIAL_CIRCLE": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 3
     },
     "DAYS_LAST_PHONE_CHANGE": {
         "type": "float64",
-        "min": -4128,
+        "min": -3156,
         "max": 0
     },
     "FLAG_DOCUMENT_2": {
@@ -646,15 +611,14 @@
     "FLAG_DOCUMENT_3": {
         "type": "int64",
         "values": [
-            0,
-            1
+            1,
+            0
         ]
     },
     "FLAG_DOCUMENT_4": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_5": {
@@ -674,8 +638,7 @@
     "FLAG_DOCUMENT_7": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_8": {
@@ -688,22 +651,19 @@
     "FLAG_DOCUMENT_9": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_10": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_11": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_12": {
@@ -722,15 +682,13 @@
     "FLAG_DOCUMENT_14": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_15": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_16": {
@@ -743,8 +701,7 @@
     "FLAG_DOCUMENT_17": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_18": {
@@ -757,8 +714,7 @@
     "FLAG_DOCUMENT_19": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "FLAG_DOCUMENT_20": {
@@ -771,8 +727,7 @@
     "FLAG_DOCUMENT_21": {
         "type": "int64",
         "values": [
-            0,
-            1
+            0
         ]
     },
     "AMT_REQ_CREDIT_BUREAU_HOUR": {
@@ -783,214 +738,199 @@
     "AMT_REQ_CREDIT_BUREAU_DAY": {
         "type": "float64",
         "min": 0,
-        "max": 6
+        "max": 1
     },
     "AMT_REQ_CREDIT_BUREAU_WEEK": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 2
     },
     "AMT_REQ_CREDIT_BUREAU_MON": {
         "type": "float64",
         "min": 0,
-        "max": 24
+        "max": 16
     },
     "AMT_REQ_CREDIT_BUREAU_QRT": {
         "type": "float64",
         "min": 0,
-        "max": 8
+        "max": 3
     },
     "AMT_REQ_CREDIT_BUREAU_YEAR": {
         "type": "float64",
         "min": 0,
-        "max": 18
+        "max": 9
     },
     "DAYS_CREDIT_max": {
         "type": "float64",
-        "min": -2922,
-        "max": 0
+        "min": -2775,
+        "max": -6
     },
     "DAYS_CREDIT_min": {
         "type": "float64",
-        "min": -2922,
-        "max": 0
+        "min": -2913,
+        "max": -30
     },
     "CREDIT_DAY_OVERDUE_max": {
         "type": "float64",
         "min": 0,
-        "max": 2667
+        "max": 43
     },
     "CREDIT_DAY_OVERDUE_min": {
         "type": "float64",
         "min": 0,
-        "max": 135
+        "max": 1
     },
     "CREDIT_DAY_OVERDUE_mean": {
         "type": "float64",
         "min": 0,
-        "max": 1144
+        "max": 8
     },
     "CREDIT_DURATION_max": {
         "type": "float64",
         "min": 0,
-        "max": 34091
+        "max": 33573
     },
     "CREDIT_DURATION_min": {
         "type": "float64",
-        "min": -41790,
-        "max": 32358
+        "min": 0,
+        "max": 28047
     },
     "CREDIT_DURATION_mean": {
         "type": "float64",
-        "min": -4647,
-        "max": 32358
+        "min": 0,
+        "max": 28047
     },
     "AMT_CREDIT_MAX_OVERDUE_max": {
         "type": "float64",
         "min": 0,
-        "max": 13144527
+        "max": 129865
     },
     "AMT_CREDIT_MAX_OVERDUE_min": {
         "type": "float64",
         "min": 0,
-        "max": 13144527
+        "max": 62887
     },
     "AMT_CREDIT_MAX_OVERDUE_mean": {
         "type": "float64",
         "min": 0,
-        "max": 13144527
+        "max": 68478
     },
     "CNT_CREDIT_PROLONG_max": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 3
     },
     "CNT_CREDIT_PROLONG_min": {
         "type": "float64",
         "min": 0,
-        "max": 4
+        "max": 1
     },
     "CNT_CREDIT_PROLONG_mean": {
         "type": "float64",
         "min": 0,
-        "max": 4
+        "max": 1
     },
     "AMT_CREDIT_SUM_max": {
         "type": "float64",
         "min": 0,
-        "max": 90000000
+        "max": 20250000
     },
     "AMT_CREDIT_SUM_min": {
         "type": "float64",
         "min": 0,
-        "max": 35190000
+        "max": 8640000
     },
     "AMT_CREDIT_SUM_mean": {
         "type": "float64",
         "min": 0,
-        "max": 35190000
+        "max": 8640000
     },
     "AMT_CREDIT_SUM_DEBT_max": {
         "type": "float64",
-        "min": -978,
-        "max": 59637690
+        "min": 0,
+        "max": 8576496
     },
     "AMT_CREDIT_SUM_DEBT_min": {
         "type": "float64",
-        "min": -2796723,
-        "max": 35108518
+        "min": -25695,
+        "max": 8576496
     },
     "AMT_CREDIT_SUM_DEBT_mean": {
         "type": "float64",
-        "min": -684441,
-        "max": 35108518
+        "min": -1155,
+        "max": 8576496
     },
     "AMT_CREDIT_SUM_LIMIT_max": {
         "type": "float64",
         "min": 0,
-        "max": 2801223
+        "max": 1125000
     },
     "AMT_CREDIT_SUM_LIMIT_min": {
         "type": "float64",
-        "min": -121905,
-        "max": 900000
+        "min": 0,
+        "max": 134287
     },
     "AMT_CREDIT_SUM_LIMIT_mean": {
         "type": "float64",
-        "min": -34173,
-        "max": 900000
+        "min": 0,
+        "max": 187500
     },
     "AMT_CREDIT_SUM_OVERDUE_max": {
         "type": "float64",
         "min": 0,
-        "max": 746550
+        "max": 47650
     },
     "AMT_CREDIT_SUM_OVERDUE_min": {
         "type": "float64",
         "min": 0,
-        "max": 517
+        "max": 1
     },
     "AMT_CREDIT_SUM_OVERDUE_mean": {
         "type": "float64",
         "min": 0,
-        "max": 260064
+        "max": 9530
     },
     "DAYS_CREDIT_UPDATE_min": {
         "type": "float64",
-        "min": -41933,
-        "max": -1
+        "min": -2773,
+        "max": -5
     },
     "AMT_ANNUITY_max_x": {
         "type": "float64",
         "min": 0,
-        "max": 11691495
+        "max": 4845649
     },
     "AMT_ANNUITY_min_x": {
         "type": "float64",
         "min": 0,
-        "max": 1860786
+        "max": 136570
     },
     "AMT_ANNUITY_mean_x": {
         "type": "float64",
         "min": 0,
-        "max": 3851176
+        "max": 498989
     },
     "CREDIT_ACTIVE_Active_sum": {
         "type": "float64",
         "min": 0,
-        "max": 17
-    },
-    "CREDIT_ACTIVE_Bad debt_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
+        "max": 10
     },
     "CREDIT_ACTIVE_Closed_sum": {
         "type": "float64",
         "min": 0,
-        "max": 56
+        "max": 20
     },
     "CREDIT_ACTIVE_Sold_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 2
     },
     "CREDIT_CURRENCY_currency 1_sum": {
         "type": "float64",
-        "min": 0,
-        "max": 59
-    },
-    "CREDIT_CURRENCY_currency 2_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 3
+        "min": 1,
+        "max": 26
     },
     "CREDIT_CURRENCY_currency 3_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
-    },
-    "CREDIT_CURRENCY_currency 4_sum": {
         "type": "float64",
         "min": 0,
         "max": 2
@@ -1003,27 +943,22 @@
     "CREDIT_TYPE_Car loan_sum": {
         "type": "float64",
         "min": 0,
-        "max": 6
+        "max": 3
     },
     "CREDIT_TYPE_Consumer credit_sum": {
         "type": "float64",
         "min": 0,
-        "max": 57
+        "max": 19
     },
     "CREDIT_TYPE_Credit card_sum": {
         "type": "float64",
         "min": 0,
-        "max": 17
+        "max": 11
     },
     "CREDIT_TYPE_Loan for business development_sum": {
         "type": "float64",
         "min": 0,
-        "max": 4
-    },
-    "CREDIT_TYPE_Loan for the purchase of equipment_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
+        "max": 3
     },
     "CREDIT_TYPE_Loan for working capital replenishment_sum": {
         "type": "float64",
@@ -1033,31 +968,21 @@
     "CREDIT_TYPE_Microloan_sum": {
         "type": "float64",
         "min": 0,
-        "max": 25
+        "max": 4
     },
     "CREDIT_TYPE_Mortgage_sum": {
         "type": "float64",
         "min": 0,
-        "max": 4
-    },
-    "CREDIT_TYPE_Real estate loan_sum": {
-        "type": "float64",
-        "min": 0,
         "max": 2
-    },
-    "CREDIT_TYPE_Unknown type of loan_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 3
     },
     "DAYS_CREDIT_DIFF_MEAN": {
         "type": "float64",
-        "min": 0,
-        "max": 1
+        "min": 1,
+        "max": 2
     },
     "MONTHS_BALANCE_max_x": {
         "type": "float64",
-        "min": -5,
+        "min": -4,
         "max": -1
     },
     "MONTHS_BALANCE_min_x": {
@@ -1068,262 +993,262 @@
     "AMT_BALANCE_max": {
         "type": "float64",
         "min": 0,
-        "max": 1347979
+        "max": 617267
     },
     "AMT_BALANCE_min": {
         "type": "float64",
-        "min": -69676,
-        "max": 855565
+        "min": 0,
+        "max": 111998
     },
     "AMT_BALANCE_mean": {
         "type": "float64",
-        "min": -243,
-        "max": 908610
+        "min": 0,
+        "max": 430147
     },
     "AMT_CREDIT_LIMIT_ACTUAL_max": {
         "type": "float64",
-        "min": 0,
-        "max": 1350000
+        "min": 45000,
+        "max": 900000
     },
     "AMT_CREDIT_LIMIT_ACTUAL_min": {
         "type": "float64",
         "min": 0,
-        "max": 1350000
+        "max": 765000
     },
     "AMT_CREDIT_LIMIT_ACTUAL_mean": {
         "type": "float64",
-        "min": 0,
-        "max": 1350000
+        "min": 21315,
+        "max": 765000
     },
     "AMT_DRAWINGS_ATM_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 1170000
+        "max": 337500
     },
     "AMT_DRAWINGS_ATM_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 675000
+        "max": 18000
     },
     "AMT_DRAWINGS_ATM_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 675000
+        "max": 42750
     },
     "AMT_DRAWINGS_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 2060030
+        "max": 422117
     },
     "AMT_DRAWINGS_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 675000
+        "max": 21375
     },
     "AMT_DRAWINGS_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 802456
+        "max": 55243
     },
     "AMT_DRAWINGS_OTHER_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 899910
+        "max": 191880
     },
     "AMT_DRAWINGS_OTHER_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 9180
+        "max": 1
     },
     "AMT_DRAWINGS_OTHER_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 177174
+        "max": 28990
     },
     "AMT_DRAWINGS_POS_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 2060030
+        "max": 222183
     },
     "AMT_DRAWINGS_POS_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 210795
+        "max": 3375
     },
     "AMT_DRAWINGS_POS_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 802456
+        "max": 25319
     },
     "AMT_INST_MIN_REGULARITY_max": {
         "type": "float64",
         "min": 0,
-        "max": 80755
+        "max": 30561
     },
     "AMT_INST_MIN_REGULARITY_min": {
         "type": "float64",
         "min": 0,
-        "max": 34098
+        "max": 6680
     },
     "AMT_INST_MIN_REGULARITY_mean": {
         "type": "float64",
         "min": 0,
-        "max": 41701
+        "max": 20053
     },
     "AMT_PAYMENT_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 1931526
+        "max": 626736
     },
     "AMT_PAYMENT_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 675000
+        "max": 9225
     },
     "AMT_PAYMENT_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 852445
+        "max": 54014
     },
     "AMT_PAYMENT_TOTAL_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 1931301
+        "max": 624486
     },
     "AMT_PAYMENT_TOTAL_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 675000
+        "max": 92
     },
     "AMT_PAYMENT_TOTAL_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 776176
+        "max": 49642
     },
     "AMT_RECEIVABLE_PRINCIPAL_max": {
         "type": "float64",
         "min": 0,
-        "max": 1305440
+        "max": 584951
     },
     "AMT_RECEIVABLE_PRINCIPAL_min": {
         "type": "float64",
-        "min": -72512,
-        "max": 854043
+        "min": -4027,
+        "max": 108261
     },
     "AMT_RECEIVABLE_PRINCIPAL_mean": {
         "type": "float64",
-        "min": -243,
-        "max": 874590
+        "min": 0,
+        "max": 410852
     },
     "AMT_RECIVABLE_max": {
         "type": "float64",
         "min": 0,
-        "max": 1341252
+        "max": 604089
     },
     "AMT_RECIVABLE_min": {
         "type": "float64",
-        "min": -71791,
-        "max": 855565
+        "min": -6917,
+        "max": 109307
     },
     "AMT_RECIVABLE_mean": {
         "type": "float64",
-        "min": -960,
-        "max": 902288
+        "min": 0,
+        "max": 424511
     },
     "AMT_TOTAL_RECEIVABLE_max": {
         "type": "float64",
         "min": 0,
-        "max": 1341252
+        "max": 604089
     },
     "AMT_TOTAL_RECEIVABLE_min": {
         "type": "float64",
-        "min": -71791,
-        "max": 855565
+        "min": -6917,
+        "max": 109307
     },
     "AMT_TOTAL_RECEIVABLE_mean": {
         "type": "float64",
-        "min": -926,
-        "max": 902288
+        "min": 0,
+        "max": 424511
     },
     "CNT_DRAWINGS_ATM_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 37
+        "max": 15
     },
     "CNT_DRAWINGS_ATM_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 35
+        "max": 3
     },
     "CNT_DRAWINGS_ATM_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 35
+        "max": 4
     },
     "CNT_DRAWINGS_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 162
+        "max": 36
     },
     "CNT_DRAWINGS_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 78
+        "max": 4
     },
     "CNT_DRAWINGS_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 118
+        "max": 8
     },
     "CNT_DRAWINGS_OTHER_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 8
+        "max": 3
     },
     "CNT_DRAWINGS_OTHER_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "CNT_DRAWINGS_OTHER_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 2
+        "max": 1
     },
     "CNT_DRAWINGS_POS_CURRENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 162
+        "max": 22
     },
     "CNT_DRAWINGS_POS_CURRENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 78
+        "max": 2
     },
     "CNT_DRAWINGS_POS_CURRENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 118
+        "max": 7
     },
     "CNT_INSTALMENT_MATURE_CUM_max": {
         "type": "float64",
         "min": 0,
-        "max": 116
+        "max": 88
     },
     "CNT_INSTALMENT_MATURE_CUM_min": {
         "type": "float64",
         "min": 0,
-        "max": 24
+        "max": 10
     },
     "CNT_INSTALMENT_MATURE_CUM_mean": {
         "type": "float64",
         "min": 0,
-        "max": 68
+        "max": 47
     },
     "SK_DPD_max_x": {
         "type": "float64",
         "min": 0,
-        "max": 2800
+        "max": 1735
     },
     "SK_DPD_min_x": {
         "type": "float64",
@@ -1333,12 +1258,12 @@
     "SK_DPD_mean_x": {
         "type": "float64",
         "min": 0,
-        "max": 1309
+        "max": 535
     },
     "SK_DPD_DEF_max_x": {
         "type": "float64",
         "min": 0,
-        "max": 2800
+        "max": 8
     },
     "SK_DPD_DEF_min_x": {
         "type": "float64",
@@ -1348,137 +1273,122 @@
     "SK_DPD_DEF_mean_x": {
         "type": "float64",
         "min": 0,
-        "max": 1309
+        "max": 1
     },
     "NAME_CONTRACT_STATUS_Active_sum_x": {
         "type": "float64",
-        "min": 0,
-        "max": 121
-    },
-    "NAME_CONTRACT_STATUS_Approved_sum_x": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
+        "min": 1,
+        "max": 96
     },
     "NAME_CONTRACT_STATUS_Completed_sum_x": {
         "type": "float64",
         "min": 0,
-        "max": 41
-    },
-    "NAME_CONTRACT_STATUS_Demand_sum_x": {
-        "type": "float64",
-        "min": 0,
-        "max": 87
-    },
-    "NAME_CONTRACT_STATUS_Sent proposal_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
+        "max": 26
     },
     "NAME_CONTRACT_STATUS_Signed_sum_x": {
         "type": "float64",
         "min": 0,
-        "max": 58
+        "max": 5
     },
     "NUM_INSTALMENT_VERSION_max": {
         "type": "float64",
         "min": 0,
-        "max": 52
+        "max": 26
     },
     "NUM_INSTALMENT_VERSION_min": {
         "type": "float64",
         "min": 0,
-        "max": 3
+        "max": 2
     },
     "NUM_INSTALMENT_VERSION_mean": {
         "type": "float64",
         "min": 0,
-        "max": 21
+        "max": 10
     },
     "NUM_INSTALMENT_NUMBER_max": {
         "type": "float64",
-        "min": 1,
-        "max": 242
+        "min": 2,
+        "max": 130
     },
     "NUM_INSTALMENT_NUMBER_min": {
         "type": "float64",
         "min": 1,
-        "max": 36
+        "max": 5
     },
     "NUM_INSTALMENT_NUMBER_mean": {
         "type": "float64",
         "min": 1,
-        "max": 114
+        "max": 60
     },
     "DAYS_INSTALMENT_max": {
         "type": "float64",
-        "min": -2920,
-        "max": -2
+        "min": -2790,
+        "max": -3
     },
     "DAYS_INSTALMENT_min": {
         "type": "float64",
         "min": -2922,
-        "max": -3
+        "max": -111
     },
     "DAYS_ENTRY_PAYMENT_max": {
         "type": "float64",
-        "min": -2943,
-        "max": -2
+        "min": -2807,
+        "max": -3
     },
     "DAYS_ENTRY_PAYMENT_min": {
         "type": "float64",
-        "min": -4921,
-        "max": -3
+        "min": -2958,
+        "max": -122
     },
     "AMT_INSTALMENT_max": {
         "type": "float64",
-        "min": 207,
-        "max": 3150949
+        "min": 2341,
+        "max": 2315334
     },
     "AMT_INSTALMENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 1162511
+        "max": 66406
     },
     "AMT_INSTALMENT_mean": {
         "type": "float64",
-        "min": 188,
-        "max": 1165793
+        "min": 2026,
+        "max": 291299
     },
     "AMT_PAYMENT_max": {
         "type": "float64",
-        "min": 207,
-        "max": 3150949
+        "min": 2341,
+        "max": 2315334
     },
     "AMT_PAYMENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 1162511
+        "max": 66406
     },
     "AMT_PAYMENT_mean": {
         "type": "float64",
-        "min": 188,
-        "max": 1165793
+        "min": 2026,
+        "max": 291299
     },
     "AMT_ANNUITY_max_y": {
         "type": "float64",
-        "min": 0,
-        "max": 229153
+        "min": 2157,
+        "max": 137606
     },
     "AMT_ANNUITY_min_y": {
         "type": "float64",
-        "min": 0,
-        "max": 173313
+        "min": 1687,
+        "max": 66406
     },
     "AMT_ANNUITY_mean_y": {
         "type": "float64",
-        "min": 0,
-        "max": 173313
+        "min": 2157,
+        "max": 82767
     },
     "AMT_APPLICATION_max": {
         "type": "float64",
-        "min": 0,
-        "max": 5850000
+        "min": 18022,
+        "max": 3150000
     },
     "AMT_APPLICATION_min": {
         "type": "float64",
@@ -1487,13 +1397,13 @@
     },
     "AMT_APPLICATION_mean": {
         "type": "float64",
-        "min": 0,
-        "max": 3330000
+        "min": 10344,
+        "max": 2250000
     },
     "AMT_CREDIT_max": {
         "type": "float64",
-        "min": 0,
-        "max": 4509688
+        "min": 17554,
+        "max": 3524220
     },
     "AMT_CREDIT_min": {
         "type": "float64",
@@ -1502,28 +1412,28 @@
     },
     "AMT_CREDIT_mean": {
         "type": "float64",
-        "min": 0,
-        "max": 2723721
+        "min": 10855,
+        "max": 2517300
     },
     "AMT_DOWN_PAYMENT_max": {
         "type": "float64",
         "min": 0,
-        "max": 2150100
+        "max": 427500
     },
     "AMT_DOWN_PAYMENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 1755000
+        "max": 90000
     },
     "AMT_DOWN_PAYMENT_mean": {
         "type": "float64",
         "min": 0,
-        "max": 1755000
+        "max": 132329
     },
     "AMT_GOODS_PRICE_max": {
         "type": "float64",
-        "min": 0,
-        "max": 5850000
+        "min": 18022,
+        "max": 3150000
     },
     "AMT_GOODS_PRICE_min": {
         "type": "float64",
@@ -1532,23 +1442,23 @@
     },
     "AMT_GOODS_PRICE_mean": {
         "type": "float64",
-        "min": 0,
-        "max": 3330000
+        "min": 18022,
+        "max": 2250000
     },
     "HOUR_APPR_PROCESS_START_max": {
         "type": "float64",
-        "min": 0,
-        "max": 23
+        "min": 4,
+        "max": 21
     },
     "HOUR_APPR_PROCESS_START_min": {
         "type": "float64",
-        "min": 0,
-        "max": 23
+        "min": 2,
+        "max": 20
     },
     "HOUR_APPR_PROCESS_START_mean": {
         "type": "float64",
-        "min": 0,
-        "max": 23
+        "min": 3,
+        "max": 20
     },
     "RATE_DOWN_PAYMENT_max": {
         "type": "float64",
@@ -1597,275 +1507,225 @@
     },
     "DAYS_DECISION_max": {
         "type": "float64",
-        "min": -2921,
+        "min": -2889,
         "max": -2
     },
     "DAYS_DECISION_min": {
         "type": "float64",
-        "min": -2922,
-        "max": -2
+        "min": -2917,
+        "max": -141
     },
     "DAYS_DECISION_mean": {
         "type": "float64",
-        "min": -2921,
-        "max": -2
+        "min": -2889,
+        "max": -94
     },
     "SELLERPLACE_AREA_max": {
         "type": "float64",
         "min": -1,
-        "max": 250000
+        "max": 30180
     },
     "SELLERPLACE_AREA_min": {
         "type": "float64",
         "min": -1,
-        "max": 74625
+        "max": 4000
     },
     "SELLERPLACE_AREA_mean": {
         "type": "float64",
         "min": -1,
-        "max": 74625
+        "max": 15089
     },
     "CNT_PAYMENT_max": {
         "type": "float64",
-        "min": 0,
-        "max": 84
+        "min": 4,
+        "max": 60
     },
     "CNT_PAYMENT_min": {
         "type": "float64",
         "min": 0,
-        "max": 72
+        "max": 60
     },
     "CNT_PAYMENT_mean": {
         "type": "float64",
-        "min": 0,
-        "max": 72
+        "min": 3,
+        "max": 60
     },
     "DAYS_FIRST_DRAWING_max": {
         "type": "float64",
-        "min": -2882,
+        "min": -498,
         "max": 365243
     },
     "DAYS_FIRST_DRAWING_min": {
         "type": "float64",
-        "min": -2919,
+        "min": -2860,
         "max": 365243
     },
     "DAYS_FIRST_DRAWING_mean": {
         "type": "float64",
-        "min": -2882,
+        "min": -498,
         "max": 365243
     },
     "DAYS_FIRST_DUE_max": {
         "type": "float64",
-        "min": -2884,
+        "min": -2858,
         "max": 365243
     },
     "DAYS_FIRST_DUE_min": {
         "type": "float64",
-        "min": -2891,
-        "max": 365243
+        "min": -2880,
+        "max": -111
     },
     "DAYS_FIRST_DUE_mean": {
         "type": "float64",
-        "min": -2884,
-        "max": 365243
+        "min": -2858,
+        "max": 182566
     },
     "DAYS_LAST_DUE_1ST_VERSION_max": {
         "type": "float64",
-        "min": -2787,
+        "min": -2588,
         "max": 365243
     },
     "DAYS_LAST_DUE_1ST_VERSION_min": {
         "type": "float64",
-        "min": -2801,
+        "min": -2780,
         "max": 365243
     },
     "DAYS_LAST_DUE_1ST_VERSION_mean": {
         "type": "float64",
-        "min": -2787,
+        "min": -2588,
         "max": 365243
     },
     "DAYS_LAST_DUE_max": {
         "type": "float64",
-        "min": -2808,
+        "min": -2588,
         "max": 365243
     },
     "DAYS_LAST_DUE_min": {
         "type": "float64",
-        "min": -2883,
+        "min": -2810,
         "max": 365243
     },
     "DAYS_LAST_DUE_mean": {
         "type": "float64",
-        "min": -2808,
+        "min": -2588,
         "max": 365243
     },
     "DAYS_TERMINATION_max": {
         "type": "float64",
-        "min": -2720,
+        "min": -2585,
         "max": 365243
     },
     "DAYS_TERMINATION_min": {
         "type": "float64",
-        "min": -2828,
+        "min": -2715,
         "max": 365243
     },
     "DAYS_TERMINATION_mean": {
         "type": "float64",
-        "min": -2720,
+        "min": -2585,
         "max": 365243
     },
     "NAME_CONTRACT_TYPE_Cash loans_sum": {
         "type": "float64",
         "min": 0,
-        "max": 51
+        "max": 25
     },
     "NAME_CONTRACT_TYPE_Consumer loans_sum": {
         "type": "float64",
         "min": 0,
-        "max": 22
+        "max": 11
     },
     "NAME_CONTRACT_TYPE_Revolving loans_sum": {
         "type": "float64",
         "min": 0,
-        "max": 16
-    },
-    "NAME_CONTRACT_TYPE_XNA_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
+        "max": 6
     },
     "WEEKDAY_APPR_PROCESS_START_FRIDAY_sum": {
         "type": "float64",
         "min": 0,
-        "max": 16
+        "max": 12
     },
     "WEEKDAY_APPR_PROCESS_START_MONDAY_sum": {
         "type": "float64",
         "min": 0,
-        "max": 14
+        "max": 10
     },
     "WEEKDAY_APPR_PROCESS_START_SATURDAY_sum": {
         "type": "float64",
         "min": 0,
-        "max": 16
+        "max": 8
     },
     "WEEKDAY_APPR_PROCESS_START_SUNDAY_sum": {
         "type": "float64",
         "min": 0,
-        "max": 17
+        "max": 5
     },
     "WEEKDAY_APPR_PROCESS_START_THURSDAY_sum": {
         "type": "float64",
         "min": 0,
-        "max": 22
+        "max": 7
     },
     "WEEKDAY_APPR_PROCESS_START_TUESDAY_sum": {
         "type": "float64",
         "min": 0,
-        "max": 17
+        "max": 10
     },
     "WEEKDAY_APPR_PROCESS_START_WEDNESDAY_sum": {
         "type": "float64",
         "min": 0,
-        "max": 20
+        "max": 8
     },
     "FLAG_LAST_APPL_PER_CONTRACT_N_sum": {
         "type": "float64",
         "min": 0,
-        "max": 13
+        "max": 2
     },
     "FLAG_LAST_APPL_PER_CONTRACT_Y_sum": {
         "type": "float64",
         "min": 1,
-        "max": 62
+        "max": 34
     },
     "NFLAG_LAST_APPL_IN_DAY_0_sum": {
         "type": "float64",
         "min": 0,
-        "max": 11
+        "max": 2
     },
     "NFLAG_LAST_APPL_IN_DAY_1_sum": {
         "type": "float64",
-        "min": 0,
-        "max": 62
+        "min": 1,
+        "max": 34
     },
     "NAME_CASH_LOAN_PURPOSE_Building a house or an annex_sum": {
         "type": "float64",
         "min": 0,
-        "max": 6
-    },
-    "NAME_CASH_LOAN_PURPOSE_Business development_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 3
-    },
-    "NAME_CASH_LOAN_PURPOSE_Buying a garage_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 6
-    },
-    "NAME_CASH_LOAN_PURPOSE_Buying a holiday home / land_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 6
+        "max": 2
     },
     "NAME_CASH_LOAN_PURPOSE_Buying a home_sum": {
         "type": "float64",
         "min": 0,
-        "max": 4
-    },
-    "NAME_CASH_LOAN_PURPOSE_Buying a new car_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 6
+        "max": 2
     },
     "NAME_CASH_LOAN_PURPOSE_Buying a used car_sum": {
         "type": "float64",
         "min": 0,
-        "max": 6
+        "max": 2
     },
     "NAME_CASH_LOAN_PURPOSE_Car repairs_sum": {
         "type": "float64",
         "min": 0,
-        "max": 8
+        "max": 2
     },
     "NAME_CASH_LOAN_PURPOSE_Education_sum": {
         "type": "float64",
         "min": 0,
-        "max": 6
+        "max": 2
     },
     "NAME_CASH_LOAN_PURPOSE_Everyday expenses_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
-    },
-    "NAME_CASH_LOAN_PURPOSE_Furniture_sum": {
-        "type": "float64",
-        "min": 0,
         "max": 2
-    },
-    "NAME_CASH_LOAN_PURPOSE_Gasification / water supply_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
-    },
-    "NAME_CASH_LOAN_PURPOSE_Hobby_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
-    },
-    "NAME_CASH_LOAN_PURPOSE_Journey_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 3
     },
     "NAME_CASH_LOAN_PURPOSE_Medicine_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 12
-    },
-    "NAME_CASH_LOAN_PURPOSE_Money for a third person_sum": {
         "type": "float64",
         "min": 0,
         "max": 2
@@ -1873,19 +1733,14 @@
     "NAME_CASH_LOAN_PURPOSE_Other_sum": {
         "type": "float64",
         "min": 0,
-        "max": 14
+        "max": 3
     },
     "NAME_CASH_LOAN_PURPOSE_Payments on other loans_sum": {
         "type": "float64",
         "min": 0,
-        "max": 8
+        "max": 2
     },
     "NAME_CASH_LOAN_PURPOSE_Purchase of electronic equipment_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 6
-    },
-    "NAME_CASH_LOAN_PURPOSE_Refusal to name the goal_sum": {
         "type": "float64",
         "min": 0,
         "max": 2
@@ -1893,169 +1748,154 @@
     "NAME_CASH_LOAN_PURPOSE_Repairs_sum": {
         "type": "float64",
         "min": 0,
-        "max": 13
+        "max": 3
     },
     "NAME_CASH_LOAN_PURPOSE_Urgent needs_sum": {
         "type": "float64",
         "min": 0,
-        "max": 8
-    },
-    "NAME_CASH_LOAN_PURPOSE_Wedding / gift / holiday_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 4
+        "max": 2
     },
     "NAME_CASH_LOAN_PURPOSE_XAP_sum": {
         "type": "float64",
         "min": 0,
-        "max": 26
+        "max": 14
     },
     "NAME_CASH_LOAN_PURPOSE_XNA_sum": {
         "type": "float64",
         "min": 0,
-        "max": 50
+        "max": 21
     },
-    "NAME_CONTRACT_STATUS_Approved_sum_y": {
+    "NAME_CONTRACT_STATUS_Approved_sum_x": {
         "type": "float64",
         "min": 0,
-        "max": 20
+        "max": 13
     },
     "NAME_CONTRACT_STATUS_Canceled_sum": {
         "type": "float64",
         "min": 0,
-        "max": 28
+        "max": 13
     },
     "NAME_CONTRACT_STATUS_Refused_sum": {
         "type": "float64",
         "min": 0,
-        "max": 54
+        "max": 21
     },
     "NAME_CONTRACT_STATUS_Unused offer_sum": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 3
     },
     "NAME_PAYMENT_TYPE_Cash through the bank_sum": {
         "type": "float64",
         "min": 0,
-        "max": 58
-    },
-    "NAME_PAYMENT_TYPE_Cashless from the account of the employer_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 3
+        "max": 22
     },
     "NAME_PAYMENT_TYPE_Non-cash from your account_sum": {
         "type": "float64",
         "min": 0,
-        "max": 9
+        "max": 2
     },
     "NAME_PAYMENT_TYPE_XNA_sum": {
         "type": "float64",
         "min": 0,
-        "max": 38
+        "max": 21
     },
     "CODE_REJECT_REASON_CLIENT_sum": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 3
     },
     "CODE_REJECT_REASON_HC_sum": {
         "type": "float64",
         "min": 0,
-        "max": 54
+        "max": 15
     },
     "CODE_REJECT_REASON_LIMIT_sum": {
         "type": "float64",
         "min": 0,
-        "max": 16
+        "max": 4
     },
     "CODE_REJECT_REASON_SCO_sum": {
         "type": "float64",
         "min": 0,
-        "max": 14
+        "max": 7
     },
     "CODE_REJECT_REASON_SCOFR_sum": {
         "type": "float64",
         "min": 0,
-        "max": 23
+        "max": 11
     },
     "CODE_REJECT_REASON_SYSTEM_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 2
     },
     "CODE_REJECT_REASON_VERIF_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 2
     },
     "CODE_REJECT_REASON_XAP_sum": {
         "type": "float64",
         "min": 0,
-        "max": 34
+        "max": 18
     },
     "CODE_REJECT_REASON_XNA_sum": {
         "type": "float64",
         "min": 0,
-        "max": 4
+        "max": 2
     },
     "NAME_TYPE_SUITE_Children_sum": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 3
     },
     "NAME_TYPE_SUITE_Family_sum": {
         "type": "float64",
         "min": 0,
-        "max": 15
+        "max": 6
     },
     "NAME_TYPE_SUITE_Group of people_sum": {
         "type": "float64",
         "min": 0,
-        "max": 3
+        "max": 2
     },
     "NAME_TYPE_SUITE_Other_A_sum": {
         "type": "float64",
         "min": 0,
-        "max": 10
+        "max": 2
     },
     "NAME_TYPE_SUITE_Other_B_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 3
     },
     "NAME_TYPE_SUITE_Spouse, partner_sum": {
         "type": "float64",
         "min": 0,
-        "max": 9
+        "max": 4
     },
     "NAME_TYPE_SUITE_Unaccompanied_sum": {
         "type": "float64",
         "min": 0,
-        "max": 35
+        "max": 15
     },
     "NAME_CLIENT_TYPE_New_sum": {
         "type": "float64",
         "min": 0,
-        "max": 10
+        "max": 4
     },
     "NAME_CLIENT_TYPE_Refreshed_sum": {
         "type": "float64",
         "min": 0,
-        "max": 18
+        "max": 5
     },
     "NAME_CLIENT_TYPE_Repeater_sum": {
         "type": "float64",
         "min": 0,
-        "max": 61
+        "max": 33
     },
     "NAME_CLIENT_TYPE_XNA_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 6
-    },
-    "NAME_GOODS_CATEGORY_Additional Service_sum": {
         "type": "float64",
         "min": 0,
         "max": 2
@@ -2063,64 +1903,44 @@
     "NAME_GOODS_CATEGORY_Audio/Video_sum": {
         "type": "float64",
         "min": 0,
-        "max": 10
+        "max": 4
     },
     "NAME_GOODS_CATEGORY_Auto Accessories_sum": {
         "type": "float64",
         "min": 0,
-        "max": 9
+        "max": 2
     },
     "NAME_GOODS_CATEGORY_Clothing and Accessories_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 3
     },
     "NAME_GOODS_CATEGORY_Computers_sum": {
         "type": "float64",
         "min": 0,
-        "max": 12
+        "max": 3
     },
     "NAME_GOODS_CATEGORY_Construction Materials_sum": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 4
     },
     "NAME_GOODS_CATEGORY_Consumer Electronics_sum": {
         "type": "float64",
         "min": 0,
-        "max": 10
-    },
-    "NAME_GOODS_CATEGORY_Direct Sales_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 3
-    },
-    "NAME_GOODS_CATEGORY_Education_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 3
-    },
-    "NAME_GOODS_CATEGORY_Fitness_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 2
+        "max": 6
     },
     "NAME_GOODS_CATEGORY_Furniture_sum": {
         "type": "float64",
         "min": 0,
-        "max": 11
+        "max": 3
     },
     "NAME_GOODS_CATEGORY_Gardening_sum": {
         "type": "float64",
         "min": 0,
-        "max": 4
+        "max": 2
     },
     "NAME_GOODS_CATEGORY_Homewares_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 4
-    },
-    "NAME_GOODS_CATEGORY_Insurance_sum": {
         "type": "float64",
         "min": 0,
         "max": 2
@@ -2128,54 +1948,34 @@
     "NAME_GOODS_CATEGORY_Jewelry_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 2
     },
     "NAME_GOODS_CATEGORY_Medical Supplies_sum": {
         "type": "float64",
         "min": 0,
-        "max": 6
+        "max": 2
     },
     "NAME_GOODS_CATEGORY_Medicine_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 2
     },
     "NAME_GOODS_CATEGORY_Mobile_sum": {
         "type": "float64",
         "min": 0,
-        "max": 17
-    },
-    "NAME_GOODS_CATEGORY_Office Appliances_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 10
+        "max": 6
     },
     "NAME_GOODS_CATEGORY_Other_sum": {
         "type": "float64",
         "min": 0,
-        "max": 3
+        "max": 2
     },
     "NAME_GOODS_CATEGORY_Photo / Cinema Equipment_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 2
     },
     "NAME_GOODS_CATEGORY_Sport and Leisure_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 3
-    },
-    "NAME_GOODS_CATEGORY_Tourism_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 6
-    },
-    "NAME_GOODS_CATEGORY_Vehicles_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 4
-    },
-    "NAME_GOODS_CATEGORY_Weapon_sum": {
         "type": "float64",
         "min": 0,
         "max": 2
@@ -2183,12 +1983,12 @@
     "NAME_GOODS_CATEGORY_XNA_sum": {
         "type": "float64",
         "min": 0,
-        "max": 55
+        "max": 27
     },
     "NAME_PORTFOLIO_Cards_sum": {
         "type": "float64",
         "min": 0,
-        "max": 16
+        "max": 3
     },
     "NAME_PORTFOLIO_Cars_sum": {
         "type": "float64",
@@ -2198,307 +1998,287 @@
     "NAME_PORTFOLIO_Cash_sum": {
         "type": "float64",
         "min": 0,
-        "max": 51
+        "max": 17
     },
     "NAME_PORTFOLIO_POS_sum": {
         "type": "float64",
         "min": 0,
-        "max": 22
+        "max": 11
     },
     "NAME_PORTFOLIO_XNA_sum": {
         "type": "float64",
         "min": 0,
-        "max": 38
+        "max": 20
     },
     "NAME_PRODUCT_TYPE_XNA_sum": {
         "type": "float64",
         "min": 0,
-        "max": 42
+        "max": 26
     },
     "NAME_PRODUCT_TYPE_walk-in_sum": {
         "type": "float64",
         "min": 0,
-        "max": 27
+        "max": 8
     },
     "NAME_PRODUCT_TYPE_x-sell_sum": {
         "type": "float64",
         "min": 0,
-        "max": 51
+        "max": 12
     },
     "CHANNEL_TYPE_AP+ (Cash loan)_sum": {
         "type": "float64",
         "min": 0,
-        "max": 28
+        "max": 5
     },
     "CHANNEL_TYPE_Car dealer_sum": {
         "type": "float64",
         "min": 0,
         "max": 3
     },
-    "CHANNEL_TYPE_Channel of corporate sales_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 13
-    },
     "CHANNEL_TYPE_Contact center_sum": {
         "type": "float64",
         "min": 0,
-        "max": 17
+        "max": 4
     },
     "CHANNEL_TYPE_Country-wide_sum": {
         "type": "float64",
         "min": 0,
-        "max": 53
+        "max": 10
     },
     "CHANNEL_TYPE_Credit and cash offices_sum": {
         "type": "float64",
         "min": 0,
-        "max": 46
+        "max": 25
     },
     "CHANNEL_TYPE_Regional / Local_sum": {
         "type": "float64",
         "min": 0,
-        "max": 11
+        "max": 4
     },
     "CHANNEL_TYPE_Stone_sum": {
         "type": "float64",
         "min": 0,
-        "max": 18
+        "max": 14
     },
     "NAME_SELLER_INDUSTRY_Auto technology_sum": {
         "type": "float64",
         "min": 0,
-        "max": 9
+        "max": 2
     },
     "NAME_SELLER_INDUSTRY_Clothing_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 3
     },
     "NAME_SELLER_INDUSTRY_Connectivity_sum": {
         "type": "float64",
         "min": 0,
-        "max": 53
+        "max": 7
     },
     "NAME_SELLER_INDUSTRY_Construction_sum": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 4
     },
     "NAME_SELLER_INDUSTRY_Consumer electronics_sum": {
         "type": "float64",
         "min": 0,
-        "max": 24
+        "max": 9
     },
     "NAME_SELLER_INDUSTRY_Furniture_sum": {
         "type": "float64",
         "min": 0,
-        "max": 10
+        "max": 4
     },
     "NAME_SELLER_INDUSTRY_Industry_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
-    },
-    "NAME_SELLER_INDUSTRY_Jewelry_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 4
-    },
-    "NAME_SELLER_INDUSTRY_MLM partners_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 7
-    },
-    "NAME_SELLER_INDUSTRY_Tourism_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 4
+        "max": 3
     },
     "NAME_SELLER_INDUSTRY_XNA_sum": {
         "type": "float64",
         "min": 0,
-        "max": 46
+        "max": 27
     },
     "NAME_YIELD_GROUP_XNA_sum": {
         "type": "float64",
         "min": 0,
-        "max": 40
+        "max": 22
     },
     "NAME_YIELD_GROUP_high_sum": {
         "type": "float64",
         "min": 0,
-        "max": 26
+        "max": 11
     },
     "NAME_YIELD_GROUP_low_action_sum": {
         "type": "float64",
         "min": 0,
-        "max": 20
+        "max": 3
     },
     "NAME_YIELD_GROUP_low_normal_sum": {
         "type": "float64",
         "min": 0,
-        "max": 20
+        "max": 8
     },
     "NAME_YIELD_GROUP_middle_sum": {
         "type": "float64",
         "min": 0,
-        "max": 52
+        "max": 9
     },
     "PRODUCT_COMBINATION_Card Street_sum": {
         "type": "float64",
         "min": 0,
-        "max": 14
+        "max": 4
     },
     "PRODUCT_COMBINATION_Card X-Sell_sum": {
         "type": "float64",
         "min": 0,
-        "max": 14
+        "max": 3
     },
     "PRODUCT_COMBINATION_Cash_sum": {
         "type": "float64",
         "min": 0,
-        "max": 32
+        "max": 19
     },
     "PRODUCT_COMBINATION_Cash Street: high_sum": {
         "type": "float64",
         "min": 0,
-        "max": 23
+        "max": 6
     },
     "PRODUCT_COMBINATION_Cash Street: low_sum": {
         "type": "float64",
         "min": 0,
-        "max": 13
+        "max": 4
     },
     "PRODUCT_COMBINATION_Cash Street: middle_sum": {
         "type": "float64",
         "min": 0,
-        "max": 13
+        "max": 4
     },
     "PRODUCT_COMBINATION_Cash X-Sell: high_sum": {
         "type": "float64",
         "min": 0,
-        "max": 13
+        "max": 3
     },
     "PRODUCT_COMBINATION_Cash X-Sell: low_sum": {
         "type": "float64",
         "min": 0,
-        "max": 21
+        "max": 7
     },
     "PRODUCT_COMBINATION_Cash X-Sell: middle_sum": {
         "type": "float64",
         "min": 0,
-        "max": 50
+        "max": 6
     },
     "PRODUCT_COMBINATION_POS household with interest_sum": {
         "type": "float64",
         "min": 0,
-        "max": 17
+        "max": 9
     },
     "PRODUCT_COMBINATION_POS household without interest_sum": {
         "type": "float64",
         "min": 0,
-        "max": 17
+        "max": 4
     },
     "PRODUCT_COMBINATION_POS industry with interest_sum": {
         "type": "float64",
         "min": 0,
-        "max": 10
+        "max": 4
     },
     "PRODUCT_COMBINATION_POS industry without interest_sum": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 2
     },
     "PRODUCT_COMBINATION_POS mobile with interest_sum": {
         "type": "float64",
         "min": 0,
-        "max": 15
+        "max": 6
     },
     "PRODUCT_COMBINATION_POS mobile without interest_sum": {
         "type": "float64",
         "min": 0,
-        "max": 7
+        "max": 2
     },
     "PRODUCT_COMBINATION_POS other with interest_sum": {
         "type": "float64",
         "min": 0,
-        "max": 9
+        "max": 3
     },
     "PRODUCT_COMBINATION_POS others without interest_sum": {
         "type": "float64",
         "min": 0,
-        "max": 5
+        "max": 2
     },
     "NFLAG_INSURED_ON_APPROVAL_0_sum": {
         "type": "float64",
         "min": 0,
-        "max": 61
+        "max": 33
     },
     "NFLAG_INSURED_ON_APPROVAL_1_sum": {
         "type": "float64",
         "min": 0,
-        "max": 14
+        "max": 9
     },
     "MONTHS_BALANCE_max_y": {
         "type": "float64",
-        "min": -96,
+        "min": -91,
         "max": -1
     },
     "MONTHS_BALANCE_min_y": {
         "type": "float64",
         "min": -96,
-        "max": -1
+        "max": -5
     },
     "CNT_INSTALMENT_max": {
         "type": "float64",
-        "min": 1,
-        "max": 84
+        "min": 4,
+        "max": 60
     },
     "CNT_INSTALMENT_min": {
         "type": "float64",
         "min": 1,
-        "max": 72
+        "max": 60
     },
     "CNT_INSTALMENT_mean": {
         "type": "float64",
-        "min": 1,
-        "max": 72
+        "min": 4,
+        "max": 60
     },
     "CNT_INSTALMENT_FUTURE_max": {
         "type": "float64",
-        "min": 0,
-        "max": 84
+        "min": 4,
+        "max": 60
     },
     "CNT_INSTALMENT_FUTURE_min": {
         "type": "float64",
         "min": 0,
-        "max": 58
+        "max": 34
     },
     "CNT_INSTALMENT_FUTURE_mean": {
         "type": "float64",
         "min": 0,
-        "max": 59
+        "max": 50
     },
     "SK_DPD_max_y": {
         "type": "float64",
         "min": 0,
-        "max": 3896
+        "max": 3257
     },
     "SK_DPD_min_y": {
         "type": "float64",
         "min": 0,
-        "max": 882
+        "max": 1
     },
     "SK_DPD_mean_y": {
         "type": "float64",
         "min": 0,
-        "max": 2298
+        "max": 725
     },
     "SK_DPD_DEF_max_y": {
         "type": "float64",
         "min": 0,
-        "max": 3141
+        "max": 40
     },
     "SK_DPD_DEF_min_y": {
         "type": "float64",
@@ -2508,41 +2288,31 @@
     "SK_DPD_DEF_mean_y": {
         "type": "float64",
         "min": 0,
-        "max": 1549
+        "max": 2
     },
     "NAME_CONTRACT_STATUS_Active_sum_y": {
         "type": "float64",
-        "min": 0,
-        "max": 217
+        "min": 2,
+        "max": 196
     },
-    "NAME_CONTRACT_STATUS_Amortized debt_sum": {
+    "NAME_CONTRACT_STATUS_Approved_sum_y": {
         "type": "float64",
         "min": 0,
-        "max": 41
-    },
-    "NAME_CONTRACT_STATUS_Approved_sum": {
-        "type": "float64",
-        "min": 0,
-        "max": 27
+        "max": 2
     },
     "NAME_CONTRACT_STATUS_Completed_sum_y": {
         "type": "float64",
         "min": 0,
-        "max": 61
-    },
-    "NAME_CONTRACT_STATUS_Demand_sum_y": {
-        "type": "float64",
-        "min": 0,
-        "max": 134
+        "max": 10
     },
     "NAME_CONTRACT_STATUS_Returned to the store_sum": {
         "type": "float64",
         "min": 0,
-        "max": 3
+        "max": 2
     },
     "NAME_CONTRACT_STATUS_Signed_sum_y": {
         "type": "float64",
         "min": 0,
-        "max": 29
+        "max": 5
     }
 }

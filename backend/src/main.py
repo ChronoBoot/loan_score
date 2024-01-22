@@ -19,7 +19,7 @@ log_format = "%(asctime)s - %(levelname)s - %(message)s"
 logging.basicConfig(format=log_format, level=logging.DEBUG)
 app.logger = logging.getLogger(__name__)
 app.logger.addHandler(logging.StreamHandler())
-app.logger.setLevel(logging.DEBUG)
+app.logger.setLevel(logging.INFO)
 
 DEBUG_MODE = bool(os.getenv('DEBUG_MODE', False))
 
@@ -28,6 +28,7 @@ DATA_FILE_MODEL = 'data_for_model.csv'
 DATA_FILE_TESTING = 'data_for_testing.csv'
 COMMON_STRUCTURE_PATH = 'shared_config'
 JSON_FILE_STRUCTURE = 'data_structure.json'
+PREDICTOR_MODEL = 'predictor.pkl'
 
 @app.route('/test', methods=['GET'])
 def test():
@@ -37,20 +38,46 @@ def test():
 @app.route('/train', methods=['POST'])
 def train():
     app.logger.info('Training model...')
+    
     data = request.get_json()
+
     sampling_frequency = int(data['sampling_frequency'])
     target_variable = data['target_variable']
     rewrite = data['rewrite'] if 'rewrite' in data else "False"
     rewrite_bool = True if rewrite == "True" else False
-    
-    loader.load(SimpleLoadData.CSV_URLS, FILES_FOLDER, rewrite_bool)
-    reader.write_data(FILES_FOLDER, DATA_FILE_MODEL, sampling_frequency)
+    save_model = data['save_model'] if 'save_model' in data else "False"
+    save_model_bool = True if save_model == "True" else False
+    retrain_model = data['retrain_model'] if 'retrain_model' in data else "False"
+    retrain_model_bool = True if retrain_model == "True" else False
 
-    loans = reader.read_data(FILES_FOLDER, DATA_FILE_MODEL)
-    predictor.train(loans, target_variable)
+    logging.info(f'Parameters: sampling_frequency={sampling_frequency}, target_variable={target_variable}, rewrite={rewrite}, save_model={save_model}, retrain_model={retrain_model}')
 
-    app.logger.info('Model trained successfully')
-    return jsonify({'message': 'Model trained successfully'}), 200
+    message = ""
+
+    # If the model is not trained or the user wants to retrain it, train it
+    if retrain_model_bool or not os.path.exists(f'{FILES_FOLDER}/{PREDICTOR_MODEL}'):
+        loader.load(SimpleLoadData.CSV_URLS, FILES_FOLDER, rewrite_bool)
+        reader.write_data(FILES_FOLDER, DATA_FILE_MODEL, sampling_frequency)
+
+        loans = reader.read_data(FILES_FOLDER, DATA_FILE_MODEL)
+        predictor.train(loans, target_variable)
+
+        if save_model_bool:
+            predictor.save_model(f'{FILES_FOLDER}/{PREDICTOR_MODEL}')
+            app.logger.info('Model saved successfully')
+            message = 'Model saved successfully'
+
+        app.logger.info('Model trained successfully')
+
+        message = 'Model trained successfully' + (", " + message if message != "" else "")
+
+        return jsonify({'message': message}), 200
+    else:
+        app.logger.info('Model already trained')
+
+        predictor.load_model(f'{FILES_FOLDER}/{PREDICTOR_MODEL}')
+
+        return jsonify({'message': 'Model already trained. Specify retrain_model if on purpose'}), 200
 
 @app.route('/predict', methods=['POST'])
 def predict():
