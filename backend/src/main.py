@@ -32,11 +32,20 @@ PREDICTOR_MODEL = 'predictor.pkl'
 
 @app.route('/test', methods=['GET'])
 def test():
+    """
+    Tests the API.
+    """
     app.logger.info('Hello World!')
     return jsonify({'message': 'Hello World!'}), 200
 
 @app.route('/train', methods=['POST'])
 def train():
+    """
+    Trains the model based on the provided data.
+
+    Returns:
+        A JSON response with a message indicating the success or failure of the training process.
+    """
     app.logger.info('Training model...')
     
     data = request.get_json()
@@ -81,6 +90,12 @@ def train():
 
 @app.route('/predict', methods=['POST'])
 def predict():
+    """
+    Predicts the outcome of a loan based on the provided data.
+    
+    Returns:
+        A JSON response with the predicted outcome of the loan.
+    """
     data = request.get_json()
     loan = pd.DataFrame(data['loan'], index=[0])
     prediction = predictor.predict(loan)
@@ -90,12 +105,24 @@ def predict():
 
 @app.route('/evaluate', methods=['GET'])
 def evaluate():
+    """
+    Evaluates the model.
+
+    Returns:
+        A JSON response with the accuracy of the model.
+    """
     accuracy = predictor.evaluate()
     app.logger.info(f'Model evaluated with accuracy: {accuracy}')
     return jsonify({'accuracy': accuracy}), 200
 
 @app.route('/most_important_features', methods=['POST'])
 def most_important_features():
+    """
+    Gets the most important features of the model.
+
+    Returns:
+        A JSON response with the most important features of the model.
+    """
     data = request.get_json()
     nb_features = data['nb_features']
     features = predictor.get_most_important_features(nb_features)
@@ -104,6 +131,12 @@ def most_important_features():
 
 @app.route('/generate_structure', methods=['POST'])
 def generate_structure():
+    """
+    Generates the data structure JSON file.
+
+    Returns:
+        A JSON response with a message indicating the success or failure of the generation process.
+    """
     data = request.get_json()
     rewrite = data['rewrite'] if 'rewrite' in data else "False"
     rewrite_bool = True if rewrite == "True" else False
@@ -119,6 +152,12 @@ def generate_structure():
 
 @app.route('/get_loan_example', methods=['GET'])
 def get_loan_example():
+    """
+    Gets a loan application example.
+
+    Returns:
+        A JSON response with a loan application example.
+    """
     reader.write_data(FILES_FOLDER, DATA_FILE_TESTING, 10000, False)
     loan_example = reader.read_data(FILES_FOLDER, DATA_FILE_TESTING)
     loan_json = loan_example.to_json(orient='records')

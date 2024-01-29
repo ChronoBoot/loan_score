@@ -58,6 +58,8 @@ FIELD_DESCRIPTIONS_PATH = os.path.join(SCRIPT_DIR, os.pardir, os.pardir, 'shared
 
 DEFAULT_FREQUENCY = 1000
 
+NB_FEATURES = 10
+
 def get_categorical_columns(columns_info : dict) -> dict:
     categorical_columns = {}
 
@@ -99,6 +101,7 @@ def _main(FREQUENCY : int):
             "sampling_frequency": FREQUENCY,
             "target_variable": "TARGET",
             "save_model": "True",
+            "retrain_model": "False"
         }
 
         response = requests.post(TRAIN_URL, json=data)
@@ -117,7 +120,7 @@ def _main(FREQUENCY : int):
         logging.info(f"Model evaluated with accuracy: {accuracy}")
 
         # Display the most important features
-        response = requests.post(MOST_IMPORTANT_FEATURES_URL, json={"nb_features": 10})
+        response = requests.post(MOST_IMPORTANT_FEATURES_URL, json={"nb_features": NB_FEATURES})
         if(response.status_code != 200):
             raise Exception(f"An error occurred while getting the most important features: {response.json()['message']}")
         
@@ -156,7 +159,8 @@ def _main(FREQUENCY : int):
         loan_example = json.loads(loan_example)[0]
 
         # Display the user interface
-        user_interface = DashUserInterface(categorical_columns, numerical_columns, loan_example, field_descriptions, PREDICT_URL)
+        user_interface = DashUserInterface(categorical_columns, numerical_columns, loan_example, 
+                                           field_descriptions, PREDICT_URL, most_important_features["importance"])
         logging.info("User interface displayed")
         user_interface.display()
 

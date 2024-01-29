@@ -31,7 +31,8 @@ class DashUserInterface(UserInterface):
     NB_VALUES_SLIDER = 100
     SERVER_PORT = 11000
 
-    def __init__(self, categorical_values : dict, float_values: dict, loan_example: dict, field_descriptions: dict, predict_url: str) -> None: 
+    def __init__(self, categorical_values : dict, float_values: dict, loan_example: dict, field_descriptions: dict, 
+                 predict_url: str, most_important_features: dict, only_show_most_important_features : bool = True) -> None: 
         self.app = Dash(__name__)
         self.original_categorical_values = categorical_values
         self.categorical_values = self.update_categorical_values(categorical_values)
@@ -39,6 +40,8 @@ class DashUserInterface(UserInterface):
         self.loan_example = loan_example
         self.field_descriptions = field_descriptions
         self.predict_url = predict_url
+        self.most_important_features = most_important_features
+        self.only_show_most_important_features = only_show_most_important_features
 
         self.app.callback(
             Output('prediction-popup', 'displayed'),
@@ -117,9 +120,12 @@ class DashUserInterface(UserInterface):
                     id=col, 
                     options=[{'label': val, 'value': val} for val in values],
                     placeholder=f"Select {col}",
-                    value=self.loan_example[col]
+                    value=self.loan_example[col],
                 )
-            ]) for col, values in self.categorical_values.items()],
+            ]
+            , # Only show the most important features if the option is selected
+            style={'display': 'none'} if self.only_show_most_important_features and col not in self.most_important_features else {}
+            ) for col, values in self.categorical_values.items()],
             *[html.Div([
                 html.Label(self.field_descriptions[col]),
                 dcc.Slider(
@@ -131,8 +137,11 @@ class DashUserInterface(UserInterface):
                     value=self.loan_example[col] if col in self.loan_example else 0,
                     marks=None,
                     tooltip={"placement": "bottom", "always_visible": True}
-                )
-            ]) for col in self.float_values.keys()],
+                )   
+            ]
+            , # Only show the most important features if the option is selected
+            style={'display': 'none'} if self.only_show_most_important_features and col not in self.most_important_features else {}
+            ) for col in self.float_values.keys()],
             html.Button('Predict', id='predict-button', n_clicks=0),
             dcc.ConfirmDialog(
                 id='prediction-popup',
